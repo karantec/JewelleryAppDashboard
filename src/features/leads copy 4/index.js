@@ -9,7 +9,7 @@ const ViewProductsPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('https://jewelleryapp-1.onrender.com/gold');
+        const response = await axios.get('https://jewelleryapp.onrender.com/gold');
         setProducts(response.data);
       } catch (err) {
         setError('Failed to fetch products');
@@ -25,7 +25,7 @@ const ViewProductsPage = () => {
       <h1 className="text-2xl font-semibold text-yellow-700 mb-6">Jewelry Products</h1>
       {isLoading && <p>Loading products...</p>}
       {error && <p className="text-red-500">{error}</p>}
-      
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
         {products.map((product, index) => (
           <div key={product._id} className="bg-white p-4 rounded-lg shadow-md border border-gray-200">

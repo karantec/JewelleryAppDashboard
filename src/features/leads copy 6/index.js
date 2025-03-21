@@ -25,7 +25,7 @@ function AboutForm() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/about/create",
+        "https://jewelleryapp.onrender.com/about/create",
         formData
       );
 
@@ -60,7 +60,7 @@ function AboutForm() {
         onSubmit={handleSubmit}
         className="w-full max-w-full   rounded-lg p-3 flex flex-col"
       >
-       
+
         {/* About & Title */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-5">
           <input

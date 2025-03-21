@@ -11,7 +11,7 @@ function OrderList() {
    useEffect(() => {
       const fetchOrders = async () => {
          try {
-            const response = await axios.get("http://localhost:8000/order/");
+            const response = await axios.get("https://jewelleryapp.onrender.com/order/");
             setOrders(response.data);
          } catch (err) {
             console.error("Failed to fetch orders", err);
@@ -30,8 +30,8 @@ function OrderList() {
          <TitleCard title="Orders List">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                {currentOrders.map((order) => (
-                  <div 
-                     key={order._id} 
+                  <div
+                     key={order._id}
                      className="border rounded-lg p-5 shadow-lg bg-white cursor-pointer hover:shadow-xl transition-all"
                      onClick={() => setSelectedOrder(order)}
                   >
@@ -48,20 +48,20 @@ function OrderList() {
                            <p className="text-sm"><strong>Category:</strong> {item.productId.category}</p>
                            <p className="text-sm"><strong>Weight:</strong> {item.productId.weight}g</p>
                            <p className="text-sm"><strong>Karat:</strong> {item.productId.karat}</p>
-                           <img 
-                              src={item.productId.images[0]} 
-                              alt={item.productId.name} 
-                              className="w-full h-32 object-cover mt-2 rounded-md" 
+                           <img
+                              src={item.productId.images[0]}
+                              alt={item.productId.name}
+                              className="w-full h-32 object-cover mt-2 rounded-md"
                            />
                         </div>
                      ))}
                   </div>
                ))}
             </div>
-            
+
          </TitleCard>
 
-        
+
       </div>
    );
 }

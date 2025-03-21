@@ -9,18 +9,18 @@ const ViewCategoriesPage = () => {
 
 
 
-  
+
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/category/getAllCategory');
+        const response = await axios.get('https://jewelleryapp.onrender.com/category/getAllCategory');
         setCategories(response.data);
       } catch (err) {
         setError('Failed to fetch categories');
       }
     };
-    
+
     fetchCategories();
   }, []);
 
@@ -33,9 +33,9 @@ const ViewCategoriesPage = () => {
     const formData = new FormData();
     formData.append('title', title);
     formData.append('images', image); // Changed 'image' to 'images' to match backend
-    
+
     try {
-      const response = await axios.post('http://localhost:8000/category/createCategory', formData, {
+      const response = await axios.post('https://jewelleryapp.onrender.com/category/createCategory', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setCategories([...categories, response.data]);
