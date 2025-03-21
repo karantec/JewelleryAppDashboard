@@ -11,7 +11,7 @@ function BlogList() {
    useEffect(() => {
       const fetchBlogs = async () => {
          try {
-            const response = await axios.get("https://jewelleryapp-1.onrender.com/blog/blogs");
+            const response = await axios.get("https://jewelleryapp.onrender.com/blog/blogs");
             setBlogs(response.data);
          } catch (err) {
             console.error("Failed to fetch blogs", err);

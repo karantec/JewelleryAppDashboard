@@ -61,7 +61,7 @@ const AddProductForm = () => {
         }
       }
 
-      const response = await fetch('https://jewelleryapp.onrender.com/gold/add', {
+      const response = await fetch('https://jewelleryapp.onrender.com//gold/add', {
         method: 'POST',
         body: formDataToSubmit,
       });

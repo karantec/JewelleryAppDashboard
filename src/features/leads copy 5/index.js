@@ -14,7 +14,7 @@ const ViewCategoriesPage = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('https://jewelleryapp-1.onrender.com/category/getAllCategory');
+        const response = await axios.get('https://jewelleryapp.onrender.com/category/getAllCategory');
         setCategories(response.data);
       } catch (err) {
         setError('Failed to fetch categories');
@@ -35,7 +35,7 @@ const ViewCategoriesPage = () => {
     formData.append('images', image); // Changed 'image' to 'images' to match backend
 
     try {
-      const response = await axios.post('https://jewelleryapp-1.onrender.com/category/createCategory', formData, {
+      const response = await axios.post('https://jewelleryapp.onrender.com/category/createCategory', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setCategories([...categories, response.data]);
