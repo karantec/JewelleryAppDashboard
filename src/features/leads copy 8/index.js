@@ -11,7 +11,7 @@ function BlogList() {
    useEffect(() => {
       const fetchBlogs = async () => {
          try {
-            const response = await axios.get("http://localhost:8000/blog/blogs");
+            const response = await axios.get("https://jewelleryapp-1.onrender.com/blog/blogs");
             setBlogs(response.data);
          } catch (err) {
             console.error("Failed to fetch blogs", err);
@@ -30,15 +30,15 @@ function BlogList() {
          <TitleCard title="Blogs List">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                {currentBlogs.map((blog) => (
-                  <div 
-                     key={blog._id} 
+                  <div
+                     key={blog._id}
                      className="border rounded-lg p-5 shadow-lg bg-white cursor-pointer hover:shadow-xl transition-all"
                      onClick={() => setSelectedBlog(blog)}
                   >
-                     <img 
-                        src={blog.image} 
-                        alt={blog.title} 
-                        className="w-full h-40 object-cover rounded-md" 
+                     <img
+                        src={blog.image}
+                        alt={blog.title}
+                        className="w-full h-40 object-cover rounded-md"
                      />
                      <h3 className="text-lg font-bold text-gray-800 mt-3">{blog.title}</h3>
                      <p className="text-sm text-gray-600">{blog.content.substring(0, 100)}...</p>
@@ -53,17 +53,17 @@ function BlogList() {
                ))}
             </div>
             <div className="flex justify-between items-center mt-6">
-               <button 
-                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} 
-                  disabled={currentPage === 1} 
+               <button
+                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
                   className="px-4 py-2 bg-blue-500 text-white rounded-md disabled:opacity-50"
                >
                   Previous
                </button>
                <span className="text-gray-700">Page {currentPage}</span>
-               <button 
-                  onClick={() => setCurrentPage((prev) => (indexOfLastBlog < blogs.length ? prev + 1 : prev))} 
-                  disabled={indexOfLastBlog >= blogs.length} 
+               <button
+                  onClick={() => setCurrentPage((prev) => (indexOfLastBlog < blogs.length ? prev + 1 : prev))}
+                  disabled={indexOfLastBlog >= blogs.length}
                   className="px-4 py-2 bg-blue-500 text-white rounded-md disabled:opacity-50"
                >
                   Next
@@ -75,10 +75,10 @@ function BlogList() {
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                <div className="bg-white p-6 rounded-lg w-96 shadow-xl">
                   <h3 className="text-lg font-bold text-gray-800">{selectedBlog.title}</h3>
-                  <img 
-                     src={selectedBlog.image} 
-                     alt={selectedBlog.title} 
-                     className="w-full h-40 object-cover rounded-md my-3" 
+                  <img
+                     src={selectedBlog.image}
+                     alt={selectedBlog.title}
+                     className="w-full h-40 object-cover rounded-md my-3"
                   />
                   <p className="text-sm text-gray-600">{selectedBlog.content}</p>
                   <h4 className="text-md font-semibold mt-4">Tags:</h4>
@@ -89,8 +89,8 @@ function BlogList() {
                         </span>
                      ))}
                   </div>
-                  <button 
-                     onClick={() => setSelectedBlog(null)} 
+                  <button
+                     onClick={() => setSelectedBlog(null)}
                      className="mt-4 w-full px-4 py-2 bg-red-500 text-white rounded-md"
                   >
                      Close
