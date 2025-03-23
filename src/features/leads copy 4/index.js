@@ -38,7 +38,7 @@ const ViewProductsPage = () => {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-2xl font-semibold text-yellow-700 mb-6">Jewelry Products</h1>
+      <h1 className="text-2xl font-semibold text-yellow-700 mb-6">Jewellery Products</h1>
       {isLoading && <p>Loading products...</p>}
       {error && <p className="text-red-500">{error}</p>}
       {!isLoading && products.length === 0 && <p>No products found.</p>}
@@ -54,6 +54,7 @@ const ViewProductsPage = () => {
             <h2 className="text-xl font-semibold text-gray-800 mb-2">{product.name}</h2>
             <p className="text-sm text-gray-600 mb-2">{product.category}</p>
             <p className="text-sm text-gray-500">{product.description}</p>
+            <p className="text-sm text-gray-500">{product.carat}</p>
             <p className="text-sm text-gray-500 mt-2">
               Net Weight {product.netWeight}g | Gross Weight {product.grossWeight}
             </p>

@@ -3,6 +3,7 @@
 import { lazy } from 'react'
 
 import FinanceAccounting from '../features/leads copy'
+import BlogList from '../features/leads copy 8'
 
 const Dashboard = lazy(() => import('../pages/protected/Dashboard'))
 const Welcome = lazy(() => import('../pages/protected/Welcome'))
@@ -43,6 +44,10 @@ const routes = [
   {
     path: '/Users',
     component: FinanceAccounting,
+  },
+  {
+    path: '/blogs',
+    component: BlogList,
   },
   // {
     

@@ -71,6 +71,16 @@ const routes = [
     icon: <FaUserAstronaut className={iconClasses} />,
     name: 'Users',
   },
+  {
+    
+ 
+    name: 'Blog Management',
+  },
+  {
+    path: '/app/blogs',
+    icon: <FaUserAstronaut className={iconClasses} />,
+    name: 'Blogs',
+  },
   // {
     
  

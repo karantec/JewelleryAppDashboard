@@ -46,6 +46,7 @@ function ServiceList() {
       setFormData({
          title: service.title,
          image: service.image,
+         
         
       });
    };

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
-const AddProduct= () => {
+const AddProduct = () => {
   const [formData, setFormData] = useState({
     name: '',
     category: '',
     netWeight: '',
+    carat: '',
     grossWeight: '',
     description: '',
     coverImage: null,
@@ -89,6 +90,7 @@ const AddProduct= () => {
       setFormData({
         name: '',
         category: '',
+        carat: '',
         netWeight: '',
         grossWeight: '',
         description: '',
@@ -115,11 +117,10 @@ const AddProduct= () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <form onSubmit={handleSubmit} className="space-y-8 bg-white shadow-lg rounded-lg">
+        <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-            {/* Left Column */}
-            <div className="p-6 space-y-6">
+            {/* Left Column - Basic Information */}
+            <div className="space-y-6">
               <h2 className="text-xl font-semibold text-gray-900 border-b pb-2">Basic Information</h2>
 
               <div className="space-y-4">
@@ -137,22 +138,6 @@ const AddProduct= () => {
                     required
                   />
                 </div>
-
-                <div className="space-y-2">
-  <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-    Product Description
-  </label>
-  <textarea
-    id="description"
-    name="description"
-    value={formData.description}
-    onChange={handleChange}
-    rows="4" // Controls the height of the textarea
-    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
-    required
-  />
-</div>
-
 
                 <div className="space-y-2">
                   <label htmlFor="category" className="block text-sm font-medium text-gray-700">
@@ -174,77 +159,117 @@ const AddProduct= () => {
                     ))}
                   </select>
                 </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                    Product Description
+                  </label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
+                    rows="4"
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
+                    required
+                  />
+                </div>
               </div>
             </div>
 
-            {/* Middle Column */}
-            <div className="p-6 space-y-6">
-              <h2 className="text-xl font-semibold text-gray-900 border-b pb-2">Weighing</h2>
-              <div className="space-y-2">
-                <label htmlFor="netWeight" className="block text-sm font-medium text-gray-700">
-                  Net Weight
-                </label>
-                <input
-                  type="text"
-                  id="netWeight"
-                  name="netWeight"
-                  value={formData.netWeight}
-                  onChange={handleChange}
-                  className="w-full rounded-md border border-gray-300 px-3 py-2"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label htmlFor="grossWeight" className="block text-sm font-medium text-gray-700">
-                  Gross Weight
-                </label>
-                <input
-                  type="text"
-                  id="grossWeight"
-                  name="grossWeight"
-                  value={formData.grossWeight}
-                  onChange={handleChange}
-                  className="w-full rounded-md border border-gray-300 px-3 py-2"
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Right Column */}
-            <div className="p-6 space-y-6">
-              <h2 className="text-xl font-semibold text-gray-900 border-b pb-2">Images</h2>
-              <div className="space-y-2">
-                <label htmlFor="coverImage" className="block text-sm font-medium text-gray-700">
-                  Cover Image
-                </label>
-                <input
-                  type="file"
-                  id="coverImage"
-                  name="coverImage"
-                  onChange={handleCoverImageUpload}
-                  accept="image/*"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label htmlFor="images" className="block text-sm font-medium text-gray-700">
-                  Additional Images
-                </label>
-                <input
-                  type="file"
-                  id="images"
-                  name="images"
-                  onChange={handleImageUpload}
-                  multiple
-                  accept="image/*"
-                />
-              </div>
-
+            {/* Middle Column - Specifications */}
+            <div className="space-y-6">
+              <h2 className="text-xl font-semibold text-gray-900 border-b pb-2">Specifications</h2>
               
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label htmlFor="netWeight" className="block text-sm font-medium text-gray-700">
+                    Net Weight
+                  </label>
+                  <input
+                    type="text"
+                    id="netWeight"
+                    name="netWeight"
+                    value={formData.netWeight}
+                    onChange={handleChange}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="grossWeight" className="block text-sm font-medium text-gray-700">
+                    Gross Weight
+                  </label>
+                  <input
+                    type="text"
+                    id="grossWeight"
+                    name="grossWeight"
+                    value={formData.grossWeight}
+                    onChange={handleChange}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="carat" className="block text-sm font-medium text-gray-700">
+                    Carat Value
+                  </label>
+                  <select
+                    id="carat"
+                    name="carat"
+                    value={formData.carat}
+                    onChange={handleChange}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
+                    required
+                  >
+                    <option value="" disabled>Select Carat Value</option>
+                    <option value="24K">24K</option>
+                    <option value="22K">22K</option>
+                    <option value="18K">18K</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Images */}
+            <div className="space-y-6">
+              <h2 className="text-xl font-semibold text-gray-900 border-b pb-2">Images</h2>
+              
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label htmlFor="coverImage" className="block text-sm font-medium text-gray-700">
+                    Cover Image
+                  </label>
+                  <input
+                    type="file"
+                    id="coverImage"
+                    name="coverImage"
+                    onChange={handleCoverImageUpload}
+                    accept="image/*"
+                    className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="images" className="block text-sm font-medium text-gray-700">
+                    Additional Images
+                  </label>
+                  <input
+                    type="file"
+                    id="images"
+                    name="images"
+                    onChange={handleImageUpload}
+                    multiple
+                    accept="image/*"
+                    className="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
+                  />
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="px-6 pb-6">
+          <div className="mt-8">
             <button
               type="submit"
               className="w-full bg-yellow-600 text-white py-3 px-4 rounded-md hover:bg-yellow-700 transition-colors duration-200"
