@@ -28,9 +28,7 @@ const ViewProductsPage = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        await axios.delete(`https://jewelleryapp.onrender.com/gold/${id}`, {
-          withCredentials: true // Added for CORS credentials
-        });
+        await axios.delete(`https://jewelleryapp.onrender.com/gold/${id}`);
         await fetchProducts(); // Refetch data after deletion for consistency
       } catch (err) {
         alert('Failed to delete product');
