@@ -20,6 +20,17 @@ const ViewProductsPage = () => {
     fetchProducts();
   }, []);
 
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this product?')) {
+      try {
+        await axios.delete(`https://jewelleryapp.onrender.com/gold/${id}`);
+        setProducts(products.filter((product) => product._id !== id));
+      } catch (err) {
+        alert('Failed to delete product');
+      }
+    }
+  };
+
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <h1 className="text-2xl font-semibold text-yellow-700 mb-6">Jewelry Products</h1>
@@ -27,7 +38,7 @@ const ViewProductsPage = () => {
       {error && <p className="text-red-500">{error}</p>}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-        {products.map((product, index) => (
+        {products.map((product) => (
           <div key={product._id} className="bg-white p-4 rounded-lg shadow-md border border-gray-200">
             <img
               src={product.images.length > 0 ? product.images[0] : 'https://via.placeholder.com/150'}
@@ -37,19 +48,15 @@ const ViewProductsPage = () => {
             <h2 className="text-xl font-semibold text-gray-800 mb-2">{product.name}</h2>
             <p className="text-sm text-gray-600 mb-2">{product.category}</p>
             <p className="text-sm text-gray-500">{product.description}</p>
-            <p className="mt-4">
-              <span className="font-semibold">Price:</span> ${product.price}
-            </p>
-            {product.discountedPrice && (
-              <p className="text-sm text-gray-500 line-through">${product.discountedPrice}</p>
-            )}
-            <p className="text-sm text-gray-500 mt-2">{product.weight}g | {product.karat}</p>
-            <p className="text-sm mt-2">
-              <span className="font-semibold">In Stock:</span> {product.inStock ? 'Yes' : 'No'}
-            </p>
-            <div className="mt-4 flex space-x-4">
-              <button className="bg-yellow-500 text-white px-4 py-2 rounded-lg font-semibold">Edit</button>
-              <button className="bg-green-500 text-white px-4 py-2 rounded-lg font-semibold">Add</button>
+            <p className="text-sm text-gray-500 mt-2">Net Weight {product.netWeight}g | Gross Weight {product.grossWeight}</p>
+
+            <div className="mt-4">
+              <button
+                className="bg-red-500 text-white px-4 py-2 rounded-lg font-semibold"
+                onClick={() => handleDelete(product._id)}
+              >
+                Delete
+              </button>
             </div>
           </div>
         ))}
