@@ -43,6 +43,18 @@ const routes = [
     name: 'Category',
   },
 
+  {
+    
+    name: 'Price Management',
+  },
+
+  {
+    path: '/app/Price',
+    icon: <MdCategory className={iconClasses} />,
+    name: 'Price',
+  },
+
+
 
   {
     

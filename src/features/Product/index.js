@@ -93,22 +93,24 @@ const AddProduct = () => {
   useEffect(() => {
     if (formData.netWeight && formData.TodayGoldPricePerGram && formData.makingcharge && formData.carat) {
       const netWeight = parseFloat(formData.netWeight);
-      let goldPricePerGram = parseFloat(formData.TodayGoldPricePerGram);
+      const goldPricePerGram = parseFloat(formData.TodayGoldPricePerGram);
       const makingCharge = parseFloat(formData.makingcharge);
       
-      // Adjust gold price based on carat - manual calculation
+      // Extract carat numeric value based on selected carat string
+      let caratValue = 24; // Default for 24K
       if (formData.carat === '22K') {
-        // 22K is 91.6% of 24K price (22/24 = 0.916)
-        goldPricePerGram = (goldPricePerGram * 22) / 24;
+        caratValue = 22;
       } else if (formData.carat === '18K') {
-        // 18K is 75% of 24K price (18/24 = 0.75)
-        goldPricePerGram = (goldPricePerGram * 18) / 24;
+        caratValue = 18;
       }
-      // 24K remains unchanged as it's considered pure gold
       
-      if (!isNaN(netWeight) && !isNaN(goldPricePerGram) && !isNaN(makingCharge)) {
-        const calculatedTotal = netWeight * (goldPricePerGram + makingCharge);
-        setTotalPrice(calculatedTotal.toFixed(4));
+      // Calculate daily price with carat adjustment (same formula as backend)
+      const dailyPrice = (caratValue / 24) * goldPricePerGram;
+      const netCharge = dailyPrice + makingCharge;
+      
+      if (!isNaN(netWeight) && !isNaN(netCharge)) {
+        const calculatedTotal = netWeight * netCharge;
+        setTotalPrice(calculatedTotal.toFixed(2));
       }
     }
   }, [formData.netWeight, formData.TodayGoldPricePerGram, formData.makingcharge, formData.carat]);
@@ -159,7 +161,7 @@ const AddProduct = () => {
         }
       }
 
-      const response = await fetch('https://jewelleryapp.onrender.com/gold/add', {
+      const response = await fetch('http://localhost:8000/gold/add', {
         method: 'POST',
         body: formDataToSubmit,
       });

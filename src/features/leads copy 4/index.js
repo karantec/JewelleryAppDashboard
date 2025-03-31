@@ -12,6 +12,10 @@ const ViewProductsPage = () => {
   const socketRef = useRef(null);
   const pollingIntervalRef = useRef(null);
   
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(10);
+  
   // Memoize the price calculation function
   const calculateProductPrices = useCallback((productsList, goldPrice) => {
     console.log('Calculating prices with gold price:', goldPrice);
@@ -233,6 +237,28 @@ const ViewProductsPage = () => {
     await fetchGoldPrice();
   };
 
+  // Get current products for pagination
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Next page
+  const nextPage = () => {
+    if (currentPage < Math.ceil(products.length / productsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  // Previous page
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <div className="flex justify-between items-center mb-6">
@@ -265,7 +291,7 @@ const ViewProductsPage = () => {
       {!isLoading && products.length === 0 && <p className="text-center py-4">No products found.</p>}
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-        {products.map(product => (
+        {currentProducts.map(product => (
           <div key={product._id} className="bg-white p-4 rounded-lg shadow-md border">
             <img 
               src={product.images?.[0] || product.coverImage || 'https://via.placeholder.com/150'} 
@@ -313,6 +339,96 @@ const ViewProductsPage = () => {
           </div>
         ))}
       </div>
+      
+      {/* Pagination */}
+      {products.length > 0 && (
+        <div className="flex justify-center items-center mt-8">
+          <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+            <button
+              onClick={prevPage}
+              disabled={currentPage === 1}
+              className={`relative inline-flex items-center px-2 py-2 rounded-l-md border ${
+                currentPage === 1 
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                  : 'bg-white text-gray-500 hover:bg-gray-50'
+              } text-sm font-medium`}
+            >
+              <span className="sr-only">Previous</span>
+              <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+            </button>
+            
+            {Array.from({ length: Math.ceil(products.length / productsPerPage) }).map((_, index) => {
+              // Show only 5 page numbers at a time with current page in the middle if possible
+              const pageNum = index + 1;
+              const totalPages = Math.ceil(products.length / productsPerPage);
+              
+              // Always show first page, last page, current page, and pages adjacent to current page
+              if (
+                pageNum === 1 || 
+                pageNum === totalPages || 
+                (pageNum >= currentPage - 1 && pageNum <= currentPage + 1) ||
+                (currentPage <= 3 && pageNum <= 5) ||
+                (currentPage >= totalPages - 2 && pageNum >= totalPages - 4)
+              ) {
+                return (
+                  <button
+                    key={index}
+                    onClick={() => paginate(pageNum)}
+                    className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                      currentPage === pageNum
+                        ? 'z-10 bg-yellow-50 border-yellow-500 text-yellow-600'
+                        : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                );
+              }
+              
+              // Show ellipsis for skipped pages
+              if (
+                (pageNum === 2 && currentPage > 4) ||
+                (pageNum === totalPages - 1 && currentPage < totalPages - 3)
+              ) {
+                return (
+                  <span
+                    key={index}
+                    className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700"
+                  >
+                    ...
+                  </span>
+                );
+              }
+              
+              return null;
+            })}
+            
+            <button
+              onClick={nextPage}
+              disabled={currentPage === Math.ceil(products.length / productsPerPage)}
+              className={`relative inline-flex items-center px-2 py-2 rounded-r-md border ${
+                currentPage === Math.ceil(products.length / productsPerPage)
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  : 'bg-white text-gray-500 hover:bg-gray-50'
+              } text-sm font-medium`}
+            >
+              <span className="sr-only">Next</span>
+              <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+              </svg>
+            </button>
+          </nav>
+        </div>
+      )}
+      
+      {/* Page information */}
+      {products.length > 0 && (
+        <div className="text-sm text-gray-500 text-center mt-4">
+          Showing {indexOfFirstProduct + 1}-{Math.min(indexOfLastProduct, products.length)} of {products.length} products
+        </div>
+      )}
     </div>
   );
 };

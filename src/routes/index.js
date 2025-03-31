@@ -12,7 +12,7 @@ const Products = lazy(() => import('../pages/protected/Product'))
 const ViewProducts=lazy(()=>import('../pages/protected/View'))
 
 const Category=lazy(()=>import('../pages/protected/Category'))
-
+const Pricing=lazy(()=>import('../pages/protected/Price'))
 const About=lazy(()=>import('../pages/protected/About'));
 
 const routes = [
@@ -31,6 +31,10 @@ const routes = [
   {
     path: '/Category',
     component: Category,
+  },
+  {
+    path: '/Price',
+    component: Pricing,
   },
   {
     path: '/About',
