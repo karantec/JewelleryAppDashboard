@@ -45,6 +45,11 @@ const routes = [
     path: '/View',
     component: ViewProducts,
   },
+  // {
+
+  //   path: '/edit-product/:id',
+  //   component: EditProducts,
+  // },
   {
     path: '/Users',
     component: FinanceAccounting,

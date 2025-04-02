@@ -242,27 +242,11 @@ const ViewProductsPage = () => {
     }
   };
 
-  // Updated handleEdit function to fetch product by ID before redirecting
-  const handleEdit = async (id) => {
-    try {
-      // Fetch the product data by ID
-      const response = await axios.get(`http://localhost:8000/gold/${id}`);
-      
-      if (response.data) {
-        console.log('Product data for editing:', response.data);
-        // Store the product data in localStorage or state management solution if needed
-        // This can be useful if you want to pre-populate the edit form
-        localStorage.setItem('editProduct', JSON.stringify(response.data));
-        
-        // Redirect to edit page
-        window.location.href = `/edit-product/${id}`;
-      } else {
-        alert('Could not retrieve product details');
-      }
-    } catch (err) {
-      console.error('Error fetching product for edit:', err);
-      alert('Failed to retrieve product details: ' + (err.response?.data?.message || err.message));
-    }
+  // Handle edit - redirect to edit page or navigate programmatically
+  const handleEdit = (id) => {
+    // If using React Router, you might use navigate(`/edit-product/${id}`);
+    // For now, we'll just redirect to the specific URL
+    window.location.href = `/edit-product/${id}`;
   };
 
   // Manual refresh button handler
@@ -393,7 +377,7 @@ const ViewProductsPage = () => {
             
             {/* Action buttons row */}
             <div className="flex gap-2 mt-4">
-              {/* <button 
+              <button 
                 className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors flex justify-center items-center" 
                 onClick={() => handleEdit(product._id)}
               >
@@ -401,7 +385,7 @@ const ViewProductsPage = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
                 Edit
-              </button> */}
+              </button>
               <button 
                 className="flex-1 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors flex justify-center items-center" 
                 onClick={() => handleDelete(product._id)}

@@ -8,7 +8,6 @@ const AddProduct = () => {
     netWeight: '',
     grossWeight: '',
     carat: '',
-    TodayGoldPricePerGram: '',
     makingcharge: '',
     description: '',
     coverImage: null,
@@ -18,7 +17,8 @@ const AddProduct = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [currentGoldPrice, setCurrentGoldPrice] = useState(0);
+  const [caratPrices, setCaratPrices] = useState([]);
+  const [currentPrice, setCurrentPrice] = useState(null);
   const [isPolling, setIsPolling] = useState(false);
 
   // Fetch categories from API
@@ -37,25 +37,31 @@ const AddProduct = () => {
     fetchCategories();
   }, []);
 
-  // Function to fetch today's gold price
-  const fetchGoldPrice = async () => {
+  // Function to fetch gold prices for all carats
+  const fetchGoldPrices = async () => {
     try {
-      const response = await fetch('http://localhost:8000/gold-price/todayPrice');
+      const response = await fetch('http://localhost:8000/today-price/PriceRouting');
       const data = await response.json();
       
-      if (data && data.data && data.data.TodayGoldPricePerGram) {
-        const goldPrice = data.data.TodayGoldPricePerGram;
+      if (data && Array.isArray(data)) {
+        // Check if prices have changed
+        const pricesChanged = JSON.stringify(data) !== JSON.stringify(caratPrices);
         
-        // Only update if the price has changed
-        if (goldPrice !== currentGoldPrice) {
-          setCurrentGoldPrice(goldPrice);
-          setFormData(prevState => ({
-            ...prevState,
-            TodayGoldPricePerGram: goldPrice
-          }));
-          // Only show toast if not initial load and price has changed
-          if (currentGoldPrice > 0 && !isPolling) {
-            toast.info('Gold price has been updated!');
+        if (pricesChanged) {
+          setCaratPrices(data);
+          
+          // If user has selected a carat, update the current price
+          if (formData.carat) {
+            const selectedCaratPrice = data.find(price => price.Carat === formData.carat);
+            if (selectedCaratPrice) {
+              const newPrice = selectedCaratPrice.TodayPricePerGram;
+              setCurrentPrice(newPrice);
+              
+              // Only show toast if not initial load and price has changed
+              if (currentPrice && currentPrice !== newPrice && !isPolling) {
+                toast.info(`${formData.carat} gold price has been updated!`);
+              }
+            }
           }
         }
         return true;
@@ -63,23 +69,23 @@ const AddProduct = () => {
         throw new Error('Invalid gold price data');
       }
     } catch (error) {
-      console.error('Error fetching gold price:', error);
+      console.error('Error fetching gold prices:', error);
       if (!isPolling) {
-        toast.error('Failed to fetch today\'s gold price');
+        toast.error('Failed to fetch gold prices');
       }
       return false;
     }
   };
 
-  // Initial fetch of gold price and then poll every second
+  // Initial fetch of gold prices and then poll every second
   useEffect(() => {
     // Initial fetch
-    fetchGoldPrice();
+    fetchGoldPrices();
     
     // Set up polling every 1 second
     setIsPolling(true);
     const intervalId = setInterval(() => {
-      fetchGoldPrice();
+      fetchGoldPrices();
     }, 1000);
     
     // Clean up interval on component unmount
@@ -89,31 +95,32 @@ const AddProduct = () => {
     };
   }, []);
 
-  // Calculate total price whenever netWeight, TodayGoldPricePerGram, makingcharge, or carat changes
+  // Update current price when carat changes
   useEffect(() => {
-    if (formData.netWeight && formData.TodayGoldPricePerGram && formData.makingcharge && formData.carat) {
-      const netWeight = parseFloat(formData.netWeight);
-      const goldPricePerGram = parseFloat(formData.TodayGoldPricePerGram);
-      const makingCharge = parseFloat(formData.makingcharge);
-      
-      // Extract carat numeric value based on selected carat string
-      let caratValue = 24; // Default for 24K
-      if (formData.carat === '22K') {
-        caratValue = 22;
-      } else if (formData.carat === '18K') {
-        caratValue = 18;
+    if (formData.carat && caratPrices.length > 0) {
+      const selectedCaratPrice = caratPrices.find(price => price.Carat === formData.carat);
+      if (selectedCaratPrice) {
+        setCurrentPrice(selectedCaratPrice.TodayPricePerGram);
       }
+    }
+  }, [formData.carat, caratPrices]);
+
+  // Calculate total price whenever netWeight, currentPrice, or makingcharge changes
+  useEffect(() => {
+    if (formData.netWeight && currentPrice && formData.makingcharge) {
+      const netWeight = parseFloat(formData.netWeight);
+      const goldPricePerGram = parseFloat(currentPrice);
+      const makingChargePercent = parseFloat(formData.makingcharge);
       
-      // Calculate daily price with carat adjustment (same formula as backend)
-      const dailyPrice = (caratValue / 24) * goldPricePerGram;
-      const netCharge = dailyPrice + makingCharge;
-      
-      if (!isNaN(netWeight) && !isNaN(netCharge)) {
-        const calculatedTotal = netWeight * netCharge;
+      if (!isNaN(netWeight) && !isNaN(goldPricePerGram) && !isNaN(makingChargePercent)) {
+        const goldPrice = netWeight * goldPricePerGram;
+        const makingChargeAmount = (goldPrice * makingChargePercent) / 100;
+        const calculatedTotal = goldPrice + makingChargeAmount;
+        
         setTotalPrice(calculatedTotal.toFixed(2));
       }
     }
-  }, [formData.netWeight, formData.TodayGoldPricePerGram, formData.makingcharge, formData.carat]);
+  }, [formData.netWeight, currentPrice, formData.makingcharge]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -172,14 +179,13 @@ const AddProduct = () => {
       }
 
       const newProduct = await response.json();
-      setProducts([...products, newProduct]);
+      setProducts([...products, newProduct.product]);
       setFormData({
         name: '',
         category: '',
         netWeight: '',
         grossWeight: '',
         carat: '',
-        TodayGoldPricePerGram: currentGoldPrice, // Keep the fetched gold price
         makingcharge: '',
         description: '',
         coverImage: null,
@@ -317,9 +323,9 @@ const AddProduct = () => {
                     required
                   >
                     <option value="" disabled>Select Carat Value</option>
-                    <option value="24K">24K</option>
-                    <option value="22K">22K</option>
-                    <option value="18K">18K</option>
+                    <option value="24K">24K (99.9% pure)</option>
+                    <option value="22K">22K (91.6% pure)</option>
+                    <option value="18K">18K (75% pure)</option>
                   </select>
                 </div>
               </div>
@@ -331,16 +337,13 @@ const AddProduct = () => {
               
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <label htmlFor="TodayGoldPricePerGram" className="block text-sm font-medium text-gray-700">
-                    Today's Gold Price Per Gram (24K)
+                  <label className="block text-sm font-medium text-gray-700">
+                    Today's Gold Price Per Gram
                   </label>
                   <div className="relative">
                     <input
                       type="number"
-                      id="TodayGoldPricePerGram"
-                      name="TodayGoldPricePerGram"
-                      value={formData.TodayGoldPricePerGram}
-                      onChange={handleChange}
+                      value={currentPrice || ''}
                       className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 bg-gray-50"
                       readOnly
                     />
@@ -348,12 +351,14 @@ const AddProduct = () => {
                       <span className="text-xs text-green-600 font-medium">Auto-updating</span>
                     </div>
                   </div>
-                  <p className="text-xs text-gray-500">Price updates automatically every second</p>
+                  <p className="text-xs text-gray-500">
+                    {formData.carat ? `Current ${formData.carat} gold price` : 'Select a carat value to see price'}
+                  </p>
                 </div>
                
                 <div className="space-y-2">
                   <label htmlFor="makingcharge" className="block text-sm font-medium text-gray-700">
-                    Making Charge Per Gram
+                    Making Charge (%)
                   </label>
                   <input
                     type="number"
@@ -366,6 +371,7 @@ const AddProduct = () => {
                     className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
                     required
                   />
+                  <p className="text-xs text-gray-500">Enter percentage (e.g., 10 for 10%)</p>
                 </div>
 
                 <div className="space-y-2">
@@ -375,12 +381,11 @@ const AddProduct = () => {
                   <div className="w-full rounded-md border border-gray-300 px-3 py-2 bg-gray-50 text-gray-700 font-semibold">
                     {totalPrice > 0 ? `₹${totalPrice}` : 'Fill in weight, carat and making charge fields'}
                   </div>
-                  {formData.carat && (
-                    <p className="text-xs text-gray-500">
-                      Price calculated for {formData.carat} gold
-                      {formData.carat !== '24K' && formData.carat === '22K' ? ' (91.6% pure)' : 
-                       formData.carat === '18K' ? ' (75% pure)' : ' (99.9% pure)'}
-                    </p>
+                  {totalPrice > 0 && (
+                    <div className="text-xs text-gray-600">
+                      <p>Gold value: ₹{(parseFloat(formData.netWeight) * currentPrice).toFixed(2)}</p>
+                      <p>Making charge: ₹{((parseFloat(formData.netWeight) * currentPrice) * parseFloat(formData.makingcharge) / 100).toFixed(2)}</p>
+                    </div>
                   )}
                 </div>
 

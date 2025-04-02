@@ -73,6 +73,12 @@ const routes = [
     icon: <FaAddressBook className={iconClasses} />,
     name: 'View Products',
   },
+   
+  {
+    path: '/app/edit-product/:id',
+    icon: <FaAddressBook className={iconClasses} />,
+    name: 'Edit Products',
+  },
   {
     
  
