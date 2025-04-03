@@ -204,7 +204,7 @@ const AddProduct = () => {
     <div className="min-h-screen bg-gray-50">
       <div className="w-full bg-white shadow-md">
         <div className="max-w-7xl mx-auto py-6 px-4">
-          <h1 className="text-3xl font-bold text-gray-900">Add New Jewelry Product</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Add New Jewellery Product</h1>
           <p className="mt-2 text-sm text-gray-600">
             Fill in the details below to add a new jewelry item to your inventory
           </p>

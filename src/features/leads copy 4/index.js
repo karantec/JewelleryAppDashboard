@@ -23,16 +23,51 @@ const ViewProductsPage = () => {
     
     const newPrices = {};
     productsList.forEach(product => {
-      const netWeight = product.netWeight || product.weight;
-      const carat = product.carat || product.karat;
-      
-      if (netWeight && carat) {
-        const caratKey = carat.toUpperCase();
-        const goldPrice = prices[caratKey] || prices['24K']; // Default to 24K if specific carat not found
-        const makingCharge = product.makingcharge || 0;
+      try {
+        // Use consistent property names
+        const netWeight = product.netWeight || 0;
+        const carat = product.carat || '';
+        const makingCharge = parseFloat(product.makingcharge) || 0;
         
-        const totalPrice = netWeight * (goldPrice + parseFloat(makingCharge));
-        newPrices[product._id] = totalPrice.toFixed(2);
+        if (netWeight && carat && !isNaN(netWeight)) {
+          const caratKey = carat.toUpperCase();
+          const goldPricePerGram = parseFloat(prices[caratKey]);
+          
+          // Make sure we have a valid gold price
+          if (!goldPricePerGram || isNaN(goldPricePerGram)) {
+            console.warn(`Invalid gold price for ${caratKey}:`, prices[caratKey]);
+            return;
+          }
+          
+          // Calculate gold price based on weight and current rate
+          const goldPrice = netWeight * goldPricePerGram;
+          
+          // Calculate making charge amount (as percentage of gold price)
+          const makingChargeAmount = (goldPrice * makingCharge) / 100;
+          
+          // Calculate total price
+          const totalPrice = goldPrice + makingChargeAmount;
+          
+          // Store the calculated price with detailed breakdown for debugging
+          newPrices[product._id] = {
+            total: totalPrice.toFixed(2),
+            breakdown: {
+              goldPrice: goldPrice.toFixed(2),
+              makingChargeAmount: makingChargeAmount.toFixed(2),
+              netWeight,
+              pricePerGram: goldPricePerGram,
+              makingChargePercentage: makingCharge
+            }
+          };
+          
+          console.log(`Price calculated for ${product.name}: ₹${totalPrice.toFixed(2)}`);
+        } else {
+          console.warn('Missing required product data for price calculation:', {
+            netWeight, carat, makingCharge, productId: product._id
+          });
+        }
+      } catch (err) {
+        console.error('Error calculating price for product:', product._id, err);
       }
     });
     
@@ -374,22 +409,32 @@ const ViewProductsPage = () => {
             </div>
             
             {calculatedPrices[product._id] ? (
-              <div className="mt-3 mb-3 border-t border-b py-2">
-                <span className="text-sm font-medium text-gray-700">Current Price:</span>
-                <span className="text-lg font-bold text-yellow-700">₹{parseFloat(calculatedPrices[product._id]).toLocaleString()}</span>
-                <p className="text-xs text-gray-500">Based on today's gold rate and {product.carat || product.karat} purity</p>
-              </div>
-            ) : (
-              product.price && (
-                <div className="mt-3 mb-3 border-t border-b py-2">
-                  <span className="text-sm font-medium text-gray-700">Price:</span>
-                  <span className="text-lg font-bold text-yellow-700">₹{product.price.toLocaleString()}</span>
-                  {product.discountedPrice && (
-                    <p className="text-xs text-green-600">Discounted: ₹{product.discountedPrice.toLocaleString()}</p>
-                  )}
-                </div>
-              )
-            )}
+  <div className="mt-3 mb-3 border-t border-b py-2">
+    <span className="text-sm font-medium text-gray-700">Current Price:</span>
+    <span className="text-lg font-bold text-yellow-700">
+      ₹{parseFloat(calculatedPrices[product._id].total).toLocaleString()}
+    </span>
+    <p className="text-xs text-gray-500">
+      Based on today's gold rate (₹{parseFloat(calculatedPrices[product._id].breakdown.pricePerGram).toLocaleString()}/g) 
+      and {product.makingcharge}% making charge
+    </p>
+    <div className="text-xs text-gray-500 mt-1">
+      <span>Gold: ₹{parseFloat(calculatedPrices[product._id].breakdown.goldPrice).toLocaleString()}</span>
+      <span className="mx-1">+</span>
+      <span>Making: ₹{parseFloat(calculatedPrices[product._id].breakdown.makingChargeAmount).toLocaleString()}</span>
+    </div>
+  </div>
+) : (
+  product.price && (
+    <div className="mt-3 mb-3 border-t border-b py-2">
+      <span className="text-sm font-medium text-gray-700">Price:</span>
+      <span className="text-lg font-bold text-yellow-700">₹{product.price.toLocaleString()}</span>
+      {product.discountedPrice && (
+        <p className="text-xs text-green-600">Discounted: ₹{product.discountedPrice.toLocaleString()}</p>
+      )}
+    </div>
+  )
+)}
             
             {/* Action buttons row */}
             <div className="flex gap-2 mt-4">

@@ -24,7 +24,13 @@ function LeftSidebar(){
 
                 <li className="mb-2 font-semibold text-xl">
                     
-                    <Link to={'/app/welcome'}>SLA</Link> </li>
+                <Link to="/app/welcome">
+    <img 
+        src="https://ecommerce-flax-chi.vercel.app/logone.png" 
+        alt="Logo"
+        className="w-20 h20"
+    />
+</Link> </li>
                 {
                     routes.map((route, k) => {
                         return(
