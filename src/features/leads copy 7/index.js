@@ -11,7 +11,7 @@ function OrderList() {
    useEffect(() => {
       const fetchOrders = async () => {
          try {
-            const response = await axios.get("https://jewelleryapp.onrender.com/order/");
+            const response = await axios.get("https://jewelleryapp.onrender.comorder/");
             setOrders(response.data);
          } catch (err) {
             console.error("Failed to fetch orders", err);

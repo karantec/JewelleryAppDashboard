@@ -11,7 +11,7 @@ const FinanceAccounting = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('https://jewelleryapp.onrender.com/auth/users');
+        const response = await axios.get('https://jewelleryapp.onrender.comauth/users');
         setUsers(response.data);
       } catch (err) {
         setError('Failed to fetch users');

@@ -43,7 +43,7 @@ const ViewProductsPage = () => {
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get('http://localhost:8000/gold', { withCredentials: true });
+      const response = await axios.get('https://jewelleryapp.onrender.com/gold', { withCredentials: true });
       console.log('Fetched products:', response.data);
       
       let productsData = [];
@@ -70,7 +70,7 @@ const ViewProductsPage = () => {
 
   const fetchGoldPrices = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/today-price/PriceRouting');
+      const response = await axios.get('https://jewelleryapp.onrender.com/today-price/PriceRouting');
       console.log('Fetched gold prices:', response.data);
       
       if (Array.isArray(response.data) && response.data.length > 0) {
@@ -233,7 +233,7 @@ const ViewProductsPage = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        await axios.delete(`http://localhost:8000/gold/${id}`);
+        await axios.delete(`https://jewelleryapp.onrender.com/gold/${id}`);
         fetchProducts(); // Refresh the products list after deletion
         alert('Product deleted successfully');
       } catch (err) {

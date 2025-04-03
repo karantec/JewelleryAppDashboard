@@ -25,7 +25,7 @@ function AboutForm() {
 
     try {
       const response = await axios.post(
-        "https://jewelleryapp.onrender.com/about/create",
+        "https://jewelleryapp.onrender.comabout/create",
         formData
       );
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://jewelleryapp.onrender.com/";
+const BASE_URL = "https://jewelleryapp.onrender.com";
 
 const apiClient = axios.create({
     baseURL: BASE_URL,

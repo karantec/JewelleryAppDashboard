@@ -19,7 +19,7 @@ function GoldPriceManagement() {
 
   const fetchGoldPrices = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/today-price/PriceRouting");
+      const response = await axios.get("https://jewelleryapp.onrender.com/today-price/PriceRouting");
       if (!response.data || !Array.isArray(response.data)) {
         setGoldPrices([]);
         return;
@@ -34,7 +34,7 @@ function GoldPriceManagement() {
     if (isSubmitting) return;
     try {
       setIsSubmitting(true);
-      await axios.delete(`http://localhost:8000/today-price/price/${priceId}`);
+      await axios.delete(`https://jewelleryapp.onrender.com/today-price/price/${priceId}`);
       setGoldPrices((prev) => prev.filter((price) => price._id !== priceId));
     } catch (err) {
       console.error("Failed to delete gold price", err);
@@ -56,7 +56,7 @@ function GoldPriceManagement() {
     if (!selectedPrice || isSubmitting) return;
     try {
       setIsSubmitting(true);
-      await axios.patch(`http://localhost:8000/today-price/price/${selectedPrice._id}`, formik.values);
+      await axios.patch(`https://jewelleryapp.onrender.com/today-price/price/${selectedPrice._id}`, formik.values);
       await fetchGoldPrices();
       closeModal();
     } catch (err) {
@@ -70,7 +70,7 @@ function GoldPriceManagement() {
     if (isSubmitting) return;
     try {
       setIsSubmitting(true);
-      await axios.post("http://localhost:8000/today-price/todayPrice", formik.values);
+      await axios.post("https://jewelleryapp.onrender.com/today-price/todayPrice", formik.values);
       await fetchGoldPrices();
       closeModal();
     } catch (err) {

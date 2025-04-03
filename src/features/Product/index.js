@@ -25,7 +25,7 @@ const AddProduct = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('https://jewelleryapp.onrender.com/category/getAllCategory');
+        const response = await fetch('https://jewelleryapp.onrender.comcategory/getAllCategory');
         const data = await response.json();
         setCategories(data);
       } catch (error) {
@@ -40,7 +40,7 @@ const AddProduct = () => {
   // Function to fetch gold prices for all carats
   const fetchGoldPrices = async () => {
     try {
-      const response = await fetch('http://localhost:8000/today-price/PriceRouting');
+      const response = await fetch('https://jewelleryapp.onrender.com/today-price/PriceRouting');
       const data = await response.json();
       
       if (data && Array.isArray(data)) {
@@ -168,7 +168,7 @@ const AddProduct = () => {
         }
       }
 
-      const response = await fetch('http://localhost:8000/gold/add', {
+      const response = await fetch('https://jewelleryapp.onrender.com/gold/add', {
         method: 'POST',
         body: formDataToSubmit,
       });
