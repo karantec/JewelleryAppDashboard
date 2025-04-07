@@ -20,6 +20,7 @@
     "cryptojs": "^2.5.3",
     "dayjs": "^1.11.7",
     "formik": "^2.4.6",
+    "lucide-react": "^0.487.0",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.0.1",

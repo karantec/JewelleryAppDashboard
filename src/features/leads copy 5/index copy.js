@@ -167,7 +167,7 @@ function GoldPriceManagement() {
 
   return (
     <div className="p-6 min-h-screen bg-gray-100">
-      <TitleCard title="Gold Price Management">
+      <TitleCard title="Gold  or Silver Price Management">
         <div className="mb-6">
           <button onClick={openCreateModal} className="px-4 py-2 bg-green-500 text-white rounded-md">
             Add Today's Gold Price
@@ -180,7 +180,7 @@ function GoldPriceManagement() {
               <tr className="bg-gray-100">
                 <th className="py-3 px-4 text-left">Date</th>
                 <th className="py-3 px-4 text-left">Carat</th>
-                <th className="py-3 px-4 text-left">Gold Price (per gram)</th>
+                <th className="py-3 px-4 text-left">Gold Price or Silver (per gram)</th>
                 <th className="py-3 px-4 text-left">Actions</th>
               </tr>
             </thead>
@@ -195,9 +195,7 @@ function GoldPriceManagement() {
                       <button onClick={() => handleEdit(price)} className="px-3 py-1 bg-blue-500 text-white rounded-md">
                         Edit
                       </button>
-                      <button onClick={() => handleDelete(price._id)} className="px-3 py-1 bg-red-500 text-white rounded-md">
-                        Delete
-                      </button>
+                    
                     </div>
                   </td>
                 </tr>

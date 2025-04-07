@@ -356,7 +356,7 @@ const ViewProductsPage = () => {
             <div className="grid grid-cols-2 gap-3 mb-2">
               {caratList.map(carat => (
                 <div key={carat} className="bg-yellow-50 p-2 rounded border border-yellow-200">
-                  <div className="text-xs text-yellow-800">{carat} Gold</div>
+                  <div className="text-xs text-yellow-800">{carat} Gold or Silver</div>
                   <div className="text-lg font-bold text-yellow-700">
                     ₹{parseFloat(caratPrices[carat]).toLocaleString()}/g
                   </div>
@@ -414,15 +414,15 @@ const ViewProductsPage = () => {
     <span className="text-lg font-bold text-yellow-700">
       ₹{parseFloat(calculatedPrices[product._id].total).toLocaleString()}
     </span>
-    <p className="text-xs text-gray-500">
+    {/* <p className="text-xs text-gray-500">
       Based on today's gold rate (₹{parseFloat(calculatedPrices[product._id].breakdown.pricePerGram).toLocaleString()}/g) 
       and {product.makingcharge}% making charge
-    </p>
-    <div className="text-xs text-gray-500 mt-1">
+    </p> */}
+    {/* <div className="text-xs text-gray-500 mt-1">
       <span>Gold: ₹{parseFloat(calculatedPrices[product._id].breakdown.goldPrice).toLocaleString()}</span>
       <span className="mx-1">+</span>
       <span>Making: ₹{parseFloat(calculatedPrices[product._id].breakdown.makingChargeAmount).toLocaleString()}</span>
-    </div>
+    </div> */}
   </div>
 ) : (
   product.price && (

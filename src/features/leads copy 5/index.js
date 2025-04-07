@@ -25,7 +25,7 @@ function ServiceList() {
 
    const fetchServices = async () => {
       try {
-         const response = await axios.get("https://jewelleryapp.onrender.comcategory/getAllCategory");
+         const response = await axios.get("https://jewelleryapp.onrender.com/category/getAllCategory");
          setServices(Array.isArray(response.data) ? response.data : [response.data]);
       } catch (err) {
          console.error("Failed to fetch services", err);
@@ -53,7 +53,7 @@ function ServiceList() {
 
    const handleUpdate = async () => {
       try {
-         await axios.put(`https://jewelleryapp.onrender.comcategory/updateCategory/${selectedService._id}`, formData);
+         await axios.put(`https://jewelleryapp.onrender.com/category/updateCategory/${selectedService._id}`, formData);
          setSelectedService(null);
          fetchServices();
       } catch (err) {
@@ -63,7 +63,7 @@ function ServiceList() {
 
    const handleCreate = async () => {
       try {
-         await axios.post(`https://jewelleryapp.onrender.comcategory/createCategory`, formData);
+         await axios.post(`https://jewelleryapp.onrender.com/category/createCategory`, formData);
          setIsCreateModalOpen(false);
          resetFormData();
          fetchServices();

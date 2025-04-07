@@ -25,7 +25,7 @@ const AddProduct = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('https://jewelleryapp.onrender.comcategory/getAllCategory');
+        const response = await fetch('https://jewelleryapp.onrender.com/category/getAllCategory');
         const data = await response.json();
         setCategories(data);
       } catch (error) {
@@ -168,7 +168,7 @@ const AddProduct = () => {
         }
       }
 
-      const response = await fetch('https://jewelleryapp.onrender.com/gold/add', {
+      const response = await fetch('http://localhost:8000/gold/add', {
         method: 'POST',
         body: formDataToSubmit,
       });
@@ -312,7 +312,7 @@ const AddProduct = () => {
 
                 <div className="space-y-2">
                   <label htmlFor="carat" className="block text-sm font-medium text-gray-700">
-                    Carat Value
+                    Carat Value or Gram Value
                   </label>
                   <select
                     id="carat"
@@ -326,6 +326,7 @@ const AddProduct = () => {
                     <option value="24K">24K (99.9% pure)</option>
                     <option value="22K">22K (91.6% pure)</option>
                     <option value="18K">18K (75% pure)</option>
+                    <option value="1K">1K </option>
                   </select>
                 </div>
               </div>
@@ -338,7 +339,7 @@ const AddProduct = () => {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <label className="block text-sm font-medium text-gray-700">
-                    Today's Gold Price Per Gram
+                    Today's Gold Price or Silver Per Gram
                   </label>
                   <div className="relative">
                     <input
