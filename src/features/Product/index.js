@@ -168,7 +168,7 @@ const AddProduct = () => {
         }
       }
 
-      const response = await fetch('http://localhost:8000/gold/add', {
+      const response = await fetch('https://jewelleryapp.onrender.com/gold/add', {
         method: 'POST',
         body: formDataToSubmit,
       });
