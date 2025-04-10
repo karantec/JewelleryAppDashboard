@@ -356,7 +356,7 @@ const ProductsPage = () => {
             <div className="grid grid-cols-2 gap-3 mb-2">
               {caratList.map(carat => (
                 <div key={carat} className="bg-yellow-50 p-2 rounded border border-yellow-200">
-                  
+                  <div className="text-xs text-yellow-800">{carat} Gold </div>
                   <div className="text-lg font-bold text-yellow-700">
                     ₹{parseFloat(caratPrices[carat]).toLocaleString()}/g
                   </div>
