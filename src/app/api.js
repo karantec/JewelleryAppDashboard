@@ -3,7 +3,7 @@ import axios from 'axios';
 export const loginUser = async (email, password) => {
     try {
         const response = await axios.post(
-            'http://localhost:8000/admin/login',
+            'https://jewelleryapp.onrender.com/admin/login',
             { email, password },
             { headers: { 'Content-Type': 'application/json' } }
         );
