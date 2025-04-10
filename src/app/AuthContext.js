@@ -1,38 +1,26 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+// AuthContext.js
+import React, { createContext, useEffect, useState } from 'react';
 
-const AuthContext = createContext();
-
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem("token"));
-  const [loading, setLoading] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
 
-  useEffect(() => {
-    // Optionally add logic to refresh the token or check if it's expired
-    setLoading(false);
-  }, []);
+    const logout = () => {
+        localStorage.removeItem('token');
+        setIsAuthenticated(false);
+    };
 
-  const login = (newToken) => {
-    setToken(newToken);
-    localStorage.setItem("token", newToken);
-  };
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            setIsAuthenticated(true);
+        }
+    }, []);
 
-  const logout = () => {
-    setToken(null);
-    localStorage.removeItem("token");
-    
-  };
-
-  if (loading) {
-    return <div>Loading...</div>; // You can show a loading spinner or a similar loading state
-  }
-
-  return (
-    <AuthContext.Provider value={{ token, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+    return (
+        <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, logout }}>
+            {children}
+        </AuthContext.Provider>
+    );
 };

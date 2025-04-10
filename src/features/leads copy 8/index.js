@@ -17,7 +17,7 @@ function BlogList() {
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get("https://jewelleryapp.onrender.comblog/blogs");
+      const response = await axios.get("https://jewelleryapp.onrender.com/blog/blogs");
       setBlogs(Array.isArray(response.data) ? response.data : [response.data]);
     } catch (err) {
       console.error("Failed to fetch blogs", err);
@@ -26,7 +26,7 @@ function BlogList() {
 
   const handleDelete = async (blogId) => {
     try {
-      await axios.delete(`https://jewelleryapp.onrender.comblog/blogs/${blogId}`);
+      await axios.delete(`https://jewelleryapp.onrender.com/blog/blogs/${blogId}`);
       setBlogs(blogs.filter((blog) => blog._id !== blogId));
     } catch (err) {
       console.error("Failed to delete blog", err);
@@ -39,7 +39,7 @@ function BlogList() {
 
   const handleUpdate = async (values) => {
     try {
-      await axios.put(`https://jewelleryapp.onrender.comblog/blogs/${selectedBlog._id}`, values);
+      await axios.put(`https://jewelleryapp.onrender.com/blog/blogs/${selectedBlog._id}`, values);
       setSelectedBlog(null);
       fetchBlogs();
     } catch (err) {

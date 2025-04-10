@@ -22,15 +22,17 @@ function Login() {
         
         const { email, password } = loginObj;
 
-        if (email.trim() === '') return setErrorMessage('Email is required!');
-        if (password.trim() === '') return setErrorMessage('Password is required!');
+        if (!email.trim()) return setErrorMessage('Email is required!');
+        if (!password.trim()) return setErrorMessage('Password is required!');
 
         setLoading(true);
         
         try {
             const result = await loginUser(email, password);
+            
             if (result.status) {
-                navigate('/app/welcome');
+                alert("Login successful!");
+                navigate('/app/dashboard');
             } else {
                 setErrorMessage(result.message);
             }
@@ -56,7 +58,7 @@ function Login() {
                 <div className="grid md:grid-cols-2 grid-cols-1 bg-base-100 rounded-xl">
                     <div className="relative hidden md:block">
                         <img
-                            src="Designer2.jpeg"
+                            src="https://imgs.search.brave.com/SGcF1woO2EQf2SBeekYPEF-KaGvxlHa9J9wsXoOnuaQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmV0/c3lzdGF0aWMuY29t/LzMzNTc0MDMzL3Iv/aWwvYjU5ZGVkLzQ1/MzA1MjExNTIvaWxf/NjAweDYwMC40NTMw/NTIxMTUyX3E5aGwu/anBn"
                             alt="Login Image"
                             className="w-full h-full object-cover rounded-l-xl"
                         />

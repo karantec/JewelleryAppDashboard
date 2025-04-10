@@ -73,12 +73,7 @@ const routes = [
     icon: <FaAddressBook className={iconClasses} />,
     name: 'View Products',
   },
-   
-  {
-    path: '/app/edit-product/:id',
-    icon: <FaAddressBook className={iconClasses} />,
-    name: 'Edit Products',
-  },
+
   {
     
  
@@ -99,16 +94,16 @@ const routes = [
     icon: <FaUserAstronaut className={iconClasses} />,
     name: 'Blogs',
   },
-  // {
+  {
     
  
-  //   name: 'Order Management',
-  // },
-  // {
-  //   path: '/app/Order',
-  //   icon: <FaUserAstronaut className={iconClasses} />,
-  //   name: 'View Order',
-  // },
+    name: 'Order Management',
+  },
+  {
+    path: '/app/Order',
+    icon: <FaUserAstronaut className={iconClasses} />,
+    name: 'View Order',
+  },
   // // {
     
  

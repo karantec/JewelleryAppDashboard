@@ -6,12 +6,11 @@ function OrderList() {
    const [orders, setOrders] = useState([]);
    const [currentPage, setCurrentPage] = useState(1);
    const ordersPerPage = 6;
-   const [selectedOrder, setSelectedOrder] = useState(null);
 
    useEffect(() => {
       const fetchOrders = async () => {
          try {
-            const response = await axios.get("https://jewelleryapp.onrender.comorder/");
+            const response = await axios.get("http://localhost:8000/order");
             setOrders(response.data);
          } catch (err) {
             console.error("Failed to fetch orders", err);
@@ -28,40 +27,74 @@ function OrderList() {
    return (
       <div className="p-6 min-h-screen bg-gray-100">
          <TitleCard title="Orders List">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-               {currentOrders.map((order) => (
-                  <div
-                     key={order._id}
-                     className="border rounded-lg p-5 shadow-lg bg-white cursor-pointer hover:shadow-xl transition-all"
-                     onClick={() => setSelectedOrder(order)}
-                  >
-                     <h3 className="text-lg font-bold text-gray-800">Order ID: {order._id}</h3>
-                     <p className="text-sm text-gray-600"><strong>User ID:</strong> {order.userId._id}</p>
-                     <p className="text-sm text-gray-600"><strong>Status:</strong> {order.orderStatus}</p>
-                     <p className="text-sm text-gray-600"><strong>Total Amount:</strong> ₹{order.totalAmount}</p>
-                     <p className="text-sm text-gray-600"><strong>Payment Method:</strong> {order.paymentMethod}</p>
-                     <p className="text-sm text-gray-600"><strong>Order Time:</strong> {new Date(order.createdAt).toLocaleString()}</p>
-                     <h4 className="mt-3 font-semibold text-gray-700">Products:</h4>
-                     {order.products.map((item) => (
-                        <div key={item._id} className="border p-3 rounded-md mt-2 bg-gray-50">
-                           <p className="text-sm"><strong>Name:</strong> {item.productId.name}</p>
-                           <p className="text-sm"><strong>Category:</strong> {item.productId.category}</p>
-                           <p className="text-sm"><strong>Weight:</strong> {item.productId.weight}g</p>
-                           <p className="text-sm"><strong>Karat:</strong> {item.productId.karat}</p>
-                           <img
-                              src={item.productId.images[0]}
-                              alt={item.productId.name}
-                              className="w-full h-32 object-cover mt-2 rounded-md"
-                           />
-                        </div>
+            <div className="overflow-x-auto">
+               <table className="min-w-full bg-white border border-gray-300">
+                  <thead className="bg-gray-200 text-gray-700 text-sm font-semibold">
+                     <tr>
+                        <th className="p-3 border">Order ID</th>
+                        <th className="p-3 border">User ID</th>
+                        <th className="p-3 border">Status</th>
+                        <th className="p-3 border">Payment</th>
+                        <th className="p-3 border">Amount</th>
+                        <th className="p-3 border">Method</th>
+                        <th className="p-3 border">Time</th>
+                        <th className="p-3 border">Shipping</th>
+                        <th className="p-3 border">Razorpay</th>
+                        <th className="p-3 border">Products</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {currentOrders.map((order) => (
+                        <tr key={order._id} className="text-sm text-gray-700 border-t hover:bg-gray-50">
+                           <td className="p-3 border">{order._id}</td>
+                           <td className="p-3 border">{order?.userId?._id || "N/A"}</td>
+                           <td className="p-3 border">{order.orderStatus}</td>
+                           <td className="p-3 border">{order.paymentStatus}</td>
+                           <td className="p-3 border">₹{order.totalAmount}</td>
+                           <td className="p-3 border">{order.paymentMethod}</td>
+                           <td className="p-3 border">{new Date(order.createdAt).toLocaleString()}</td>
+
+                           {/* Shipping Address */}
+                           <td className="p-3 border">
+                              <div className="text-xs leading-5">
+                                 <div>{order?.shippingAddress?.fullName}</div>
+                                 <div>{order?.shippingAddress?.addressLine1}</div>
+                                 <div>
+                                    {order?.shippingAddress?.city}, {order?.shippingAddress?.state} - {order?.shippingAddress?.postalCode}
+                                 </div>
+                                 <div>{order?.shippingAddress?.country}</div>
+                                 <div><strong>Phone:</strong> {order?.shippingAddress?.phone}</div>
+                              </div>
+                           </td>
+
+                           {/* Razorpay */}
+                           <td className="p-3 border">
+                              <div className="text-xs leading-5">
+                                 <div><strong>ID:</strong> {order?.razorpay?.orderId}</div>
+                                 <div><strong>Status:</strong> {order?.razorpay?.orderDetails?.status}</div>
+                                 <div><strong>Amount:</strong> ₹{(order?.razorpay?.orderDetails?.amount || 0) / 100}</div>
+                              </div>
+                           </td>
+
+                           {/* Product List */}
+                           <td className="p-3 border">
+                              {Array.isArray(order.products) && order.products.map((item, idx) => (
+                                 <div key={item._id || idx} className="mb-2">
+                                    <div className="text-xs">{item?.productId?.name || "N/A"}</div>
+                                    <img
+                                       src={item?.productId?.images?.[0] || "/placeholder.jpg"}
+                                       alt={item?.productId?.name || "Product"}
+                                       className="w-16 h-16 object-cover rounded mt-1"
+                                    />
+                                 </div>
+                              ))}
+                           </td>
+                        </tr>
                      ))}
-                  </div>
-               ))}
+                  </tbody>
+               </table>
             </div>
-
          </TitleCard>
-
-
       </div>
    );
 }

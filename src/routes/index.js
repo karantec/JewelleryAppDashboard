@@ -10,7 +10,7 @@ const Welcome = lazy(() => import('../pages/protected/Welcome'))
 
 const Products = lazy(() => import('../pages/protected/Product'))
 const ViewProducts=lazy(()=>import('../pages/protected/View'))
-
+const OrderList=lazy(()=>import('../pages/protected/Order'))
 const Category=lazy(()=>import('../pages/protected/Category'))
 const Pricing=lazy(()=>import('../pages/protected/Price'))
 const About=lazy(()=>import('../pages/protected/About'));
@@ -45,11 +45,7 @@ const routes = [
     path: '/View',
     component: ViewProducts,
   },
-  // {
-
-  //   path: '/edit-product/:id',
-  //   component: EditProducts,
-  // },
+ 
   {
     path: '/Users',
     component: FinanceAccounting,
@@ -58,11 +54,11 @@ const routes = [
     path: '/blogs',
     component: BlogList,
   },
-  // {
+  {
     
-  //   path: '/Order',
-  //   component: OrderList,
-  // },
+    path: '/Order',
+    component: OrderList,
+  },
   // {
     
   //   path: '/Blog',
