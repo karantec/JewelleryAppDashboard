@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 
-const ViewProductsPage = () => {
+const ProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -356,7 +356,7 @@ const ViewProductsPage = () => {
             <div className="grid grid-cols-2 gap-3 mb-2">
               {caratList.map(carat => (
                 <div key={carat} className="bg-yellow-50 p-2 rounded border border-yellow-200">
-                  <div className="text-xs text-yellow-800">{carat} Gold or Silver</div>
+                  
                   <div className="text-lg font-bold text-yellow-700">
                     ₹{parseFloat(caratPrices[carat]).toLocaleString()}/g
                   </div>
@@ -554,4 +554,4 @@ const ViewProductsPage = () => {
   );
 };
 
-export default ViewProductsPage;
+export default ProductsPage;
