@@ -78,7 +78,7 @@ const ViewProductsPage = () => {
   const fetchProducts = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get('https://jewelleryapp.onrender.com/gold', { withCredentials: true });
+      const response = await axios.get('https://jewelleryapp.onrender.com/gold',);
       console.log('Fetched products:', response.data);
       
       let productsData = [];
@@ -158,7 +158,7 @@ const ViewProductsPage = () => {
       return setupPolling();
     }
     
-    const wsUrl = 'ws://localhost:8000/ws/goldprice';
+    const wsUrl = 'ws://https://jewelleryapp.onrender.com/ws/goldprice';
     
     console.log('Attempting to set up WebSocket connection');
     setWsStatus('Connecting...');
