@@ -1,26 +1,33 @@
 /** Icons are imported separately to reduce build time */
 
-import Squares2X2Icon from '@heroicons/react/24/outline/Squares2X2Icon';
+import Squares2X2Icon from "@heroicons/react/24/outline/Squares2X2Icon";
 
-
-import { MdCampaign, MdCategory, MdProductionQuantityLimits } from 'react-icons/md';
-import { VscGitPullRequestNewChanges, VscFeedback } from 'react-icons/vsc';
-import { FaBookBookmark, FaAddressBook, FaEye, FaRegUser, FaUserAstronaut } from 'react-icons/fa';
+import {
+  MdCampaign,
+  MdCategory,
+  MdProductionQuantityLimits,
+} from "react-icons/md";
+import { VscGitPullRequestNewChanges, VscFeedback } from "react-icons/vsc";
+import {
+  FaBookBookmark,
+  FaAddressBook,
+  FaEye,
+  FaRegUser,
+  FaUserAstronaut,
+} from "react-icons/fa";
 
 import { FcAbout } from "react-icons/fc";
-const iconClasses = 'h-5 w-5'; // Adjusted icon size for consistency
+const iconClasses = "h-5 w-5"; // Adjusted icon size for consistency
 
 // Define routes for the sidebar with paths, icons, and names
 const routes = [
   {
-
     icon: <Squares2X2Icon className={iconClasses} />,
-    name: 'Dashboard',
+    name: "Dashboard",
   },
-  
+
   // {
-    
-    
+
   //   name: 'HomePage Management',
   // },
 
@@ -30,83 +37,73 @@ const routes = [
   //   name: 'About',
   // },
 
-
-  
   {
-    
-    name: 'Category Management',
+    name: "Category Management",
   },
 
   {
-    path: '/app/Category',
+    path: "/app/Category",
     icon: <MdCategory className={iconClasses} />,
-    name: 'Category',
+    name: "Category",
   },
 
   {
-    
-    name: 'Price Management',
+    name: "Price Management",
   },
 
   {
-    path: '/app/Price',
+    path: "/app/Price",
     icon: <MdCategory className={iconClasses} />,
-    name: 'Price',
+    name: "Price",
   },
 
-
-
   {
-    
-    
-    name: 'Product Management',
+    name: "Product Management",
   },
-  
+
   {
-    path: '/app/Products',
+    path: "/app/Products",
     icon: <FaAddressBook className={iconClasses} />,
-    name: 'Add Products',
-  },
-   
-  {
-    path: '/app/View',
-    icon: <FaAddressBook className={iconClasses} />,
-    name: 'View Products',
+    name: "Add Products",
   },
 
   {
-    
- 
-    name: 'User Management',
+    path: "/app/View",
+    icon: <FaAddressBook className={iconClasses} />,
+    name: "View Products",
+  },
+  // {
+  //   path: "/app/Edit",
+  //   icon: <FaAddressBook className={iconClasses} />,
+  //   name: "Edit Products",
+  // },
+
+  {
+    name: "User Management",
   },
   {
-    path: '/app/Users',
+    path: "/app/Users",
     icon: <FaUserAstronaut className={iconClasses} />,
-    name: 'Users',
+    name: "Users",
   },
   {
-    
- 
-    name: 'Blog Management',
+    name: "Blog Management",
   },
   {
-    path: '/app/blogs',
+    path: "/app/blogs",
     icon: <FaUserAstronaut className={iconClasses} />,
-    name: 'Blogs',
+    name: "Blogs",
   },
   {
-    
- 
-    name: 'Order Management',
+    name: "Order Management",
   },
   {
-    path: '/app/Order',
+    path: "/app/Order",
     icon: <FaUserAstronaut className={iconClasses} />,
-    name: 'View Order',
+    name: "View Order",
   },
   // // {
-    
- 
+
   //   name: 'Blog Management',
   // },
   // {
@@ -114,7 +111,6 @@ const routes = [
   //   icon: <FaUserAstronaut className={iconClasses} />,
   //   name: 'View Blog',
   // },
-  
 ];
 
 export default routes;

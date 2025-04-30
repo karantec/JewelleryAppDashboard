@@ -1,66 +1,69 @@
 // All components mapping with path for internal routes
 
-import { lazy } from 'react'
+import { lazy } from "react";
 
-import FinanceAccounting from '../features/leads copy'
-import BlogList from '../features/leads copy 8'
+import FinanceAccounting from "../features/leads copy";
+import BlogList from "../features/leads copy 8";
 
-const Dashboard = lazy(() => import('../pages/protected/Dashboard'))
-const Welcome = lazy(() => import('../pages/protected/Welcome'))
+const Dashboard = lazy(() => import("../pages/protected/Dashboard"));
+const Welcome = lazy(() => import("../pages/protected/Welcome"));
 
-const Products = lazy(() => import('../pages/protected/Product'))
-const ViewProducts=lazy(()=>import('../pages/protected/View'))
-const OrderList=lazy(()=>import('../pages/protected/Order'))
-const Category=lazy(()=>import('../pages/protected/Category'))
-const Pricing=lazy(()=>import('../pages/protected/Price'))
-const About=lazy(()=>import('../pages/protected/About'));
+const Products = lazy(() => import("../pages/protected/Product"));
+const ViewProducts = lazy(() => import("../pages/protected/View"));
+const EditProducts = lazy(() => import("../pages/protected/Edit"));
+const OrderList = lazy(() => import("../pages/protected/Order"));
+const Category = lazy(() => import("../pages/protected/Category"));
+const Pricing = lazy(() => import("../pages/protected/Price"));
+const About = lazy(() => import("../pages/protected/About"));
 
 const routes = [
   {
-    path: '/dashboard', // the url
-  component: Dashboard, // view rendered
+    path: "/dashboard", // the url
+    component: Dashboard, // view rendered
   },
   {
-    path: '/welcome', // the url
+    path: "/welcome", // the url
     component: Welcome, // view rendered
   },
   {
-    path: '/Products',
+    path: "/Products",
     component: Products,
   },
   {
-    path: '/Category',
+    path: "/Category",
     component: Category,
   },
   {
-    path: '/Price',
+    path: "/Price",
     component: Pricing,
   },
   {
-    path: '/About',
+    path: "/About",
     component: About,
   },
   {
-
-    path: '/View',
+    path: "/View",
     component: ViewProducts,
   },
- 
+  // {
+  //   path: "/Edit",
+  //   component: ViewProducts,
+  // },
+
   {
-    path: '/Users',
+    path: "/Users",
     component: FinanceAccounting,
   },
   {
-    path: '/blogs',
+    path: "/blogs",
     component: BlogList,
   },
   {
-    
-    path: '/Order',
+    path: "/Order",
     component: OrderList,
   },
   // {
-    
+
   //   path: '/Blog',
   //   component: ViewBlog,
   // },
@@ -161,6 +164,6 @@ const routes = [
   //   path: '/blank',
   //   component: Blank,
   // },
-]
+];
 
-export default routes
+export default routes;
