@@ -12,6 +12,7 @@ const Products = lazy(() => import("../pages/protected/Product"));
 const ViewProducts = lazy(() => import("../pages/protected/View"));
 const EditProducts = lazy(() => import("../pages/protected/Edit"));
 const OrderList = lazy(() => import("../pages/protected/Order"));
+const Crousel = lazy(() => import("../pages/protected/Crousel"));
 const Category = lazy(() => import("../pages/protected/Category"));
 const Pricing = lazy(() => import("../pages/protected/Price"));
 const About = lazy(() => import("../pages/protected/About"));
@@ -28,6 +29,10 @@ const routes = [
   {
     path: "/Products",
     component: Products,
+  },
+  {
+    path: "/Crousel",
+    component: Crousel,
   },
   {
     path: "/Category",

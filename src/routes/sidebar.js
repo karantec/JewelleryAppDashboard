@@ -26,11 +26,14 @@ const routes = [
     name: "Dashboard",
   },
 
-  // {
-
-  //   name: 'HomePage Management',
-  // },
-
+  {
+    name: "HomePage Management",
+  },
+  {
+    path: "/app/Crousel",
+    icon: <MdCategory className={iconClasses} />,
+    name: "Crousel",
+  },
   // {
   //   path: '/app/About',
   //   icon: <FcAbout className={iconClasses} />,
