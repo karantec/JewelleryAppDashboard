@@ -26,7 +26,7 @@ const ProductsPage = () => {
   const handleSaveEditedProduct = async (updatedProduct) => {
     try {
       await axios.put(
-        `https://jewelleryapp.onrender.com/gold/${updatedProduct._id}`,
+        `https://backend.srilaxmialankar.com/gold/${updatedProduct._id}`,
         updatedProduct
       );
       alert("Product updated successfully");
@@ -107,7 +107,7 @@ const ProductsPage = () => {
     try {
       setIsLoading(true);
       const response = await axios.get(
-        "https://jewelleryapp.onrender.com/gold"
+        "https://backend.srilaxmialankar.com/gold"
       );
       console.log("Fetched products:", response.data);
 
@@ -140,7 +140,7 @@ const ProductsPage = () => {
   const fetchGoldPrices = async () => {
     try {
       const response = await axios.get(
-        "https://jewelleryapp.onrender.com/today-price/PriceRouting"
+        "https://backend.srilaxmialankar.com/today-price/PriceRouting"
       );
       console.log("Fetched gold prices:", response.data);
 
@@ -194,7 +194,7 @@ const ProductsPage = () => {
       return setupPolling();
     }
 
-    const wsUrl = "ws://https://jewelleryapp.onrender.com/ws/goldprice";
+    const wsUrl = "ws://https://backend.srilaxmialankar.com/ws/goldprice";
 
     console.log("Attempting to set up WebSocket connection");
     setWsStatus("Connecting...");
@@ -304,7 +304,7 @@ const ProductsPage = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
-        await axios.delete(`https://jewelleryapp.onrender.com/gold/${id}`);
+        await axios.delete(`https://backend.srilaxmialankar.com/gold/${id}`);
         fetchProducts(); // Refresh the products list after deletion
         alert("Product deleted successfully");
       } catch (err) {
@@ -321,7 +321,7 @@ const ProductsPage = () => {
     try {
       // Fetch the product data by ID
       const response = await axios.get(
-        `https://jewelleryapp.onrender.com/gold/${id}`
+        `https://backend.srilaxmialankar.com/gold/${id}`
       );
 
       if (response.data) {

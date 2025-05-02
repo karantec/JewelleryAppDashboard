@@ -17,7 +17,9 @@ function BlogList() {
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get("https://jewelleryapp.onrender.com/blog/blogs");
+      const response = await axios.get(
+        "https://backend.srilaxmialankar.com/blog/blogs"
+      );
       setBlogs(Array.isArray(response.data) ? response.data : [response.data]);
     } catch (err) {
       console.error("Failed to fetch blogs", err);
@@ -26,7 +28,9 @@ function BlogList() {
 
   const handleDelete = async (blogId) => {
     try {
-      await axios.delete(`https://jewelleryapp.onrender.com/blog/blogs/${blogId}`);
+      await axios.delete(
+        `https://backend.srilaxmialankar.com/blog/blogs/${blogId}`
+      );
       setBlogs(blogs.filter((blog) => blog._id !== blogId));
     } catch (err) {
       console.error("Failed to delete blog", err);
@@ -39,7 +43,10 @@ function BlogList() {
 
   const handleUpdate = async (values) => {
     try {
-      await axios.put(`https://jewelleryapp.onrender.com/blog/blogs/${selectedBlog._id}`, values);
+      await axios.put(
+        `https://backend.srilaxmialankar.com/blog/blogs/${selectedBlog._id}`,
+        values
+      );
       setSelectedBlog(null);
       fetchBlogs();
     } catch (err) {
@@ -49,7 +56,7 @@ function BlogList() {
 
   const handleCreate = async (values) => {
     try {
-      await axios.post("https://jewelleryapp.onrender.comblog/blogs", values);
+      await axios.post("https://backend.srilaxmialankar.comblog/blogs", values);
       setIsCreateModalOpen(false);
       fetchBlogs();
     } catch (err) {
@@ -119,7 +126,9 @@ function BlogList() {
               <input
                 type="file"
                 accept="image/*"
-                onChange={(e) => handleImageUpload(setFieldValue, e.currentTarget.files[0])}
+                onChange={(e) =>
+                  handleImageUpload(setFieldValue, e.currentTarget.files[0])
+                }
                 className="w-full p-2 border rounded mt-2"
               />
               {values.image && (
@@ -129,11 +138,7 @@ function BlogList() {
                   className="w-full h-32 object-cover mt-2 rounded-md"
                 />
               )}
-              <Field
-                name="isPublished"
-                type="checkbox"
-                className="mt-2"
-              />{" "}
+              <Field name="isPublished" type="checkbox" className="mt-2" />{" "}
               Published
               <div className="mt-4 flex justify-between">
                 <button

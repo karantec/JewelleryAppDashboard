@@ -18,7 +18,7 @@ function Best() {
   const fetchBlogs = async () => {
     try {
       const response = await axios.get(
-        "https://jewelleryapp.onrender.com/best/"
+        "https://backend.srilaxmialankar.com/best/"
       );
       setBlogs(Array.isArray(response.data) ? response.data : [response.data]);
     } catch (err) {
@@ -28,7 +28,7 @@ function Best() {
 
   const handleDelete = async (blogId) => {
     try {
-      await axios.delete(`https://jewelleryapp.onrender.com/best/${blogId}`);
+      await axios.delete(`https://backend.srilaxmialankar.com/best/${blogId}`);
       setBlogs(blogs.filter((blog) => blog._id !== blogId));
     } catch (err) {
       console.error("Failed to delete blog", err);
@@ -42,7 +42,7 @@ function Best() {
   const handleUpdate = async (values) => {
     try {
       await axios.put(
-        `https://jewelleryapp.onrender.com/best/${selectedBlog._id}`,
+        `https://backend.srilaxmialankar.com/best/${selectedBlog._id}`,
         values
       );
       setSelectedBlog(null);
@@ -54,7 +54,7 @@ function Best() {
 
   const handleCreate = async (values) => {
     try {
-      await axios.post("https://jewelleryapp.onrender.com/best", values);
+      await axios.post("https://backend.srilaxmialankar.com/best", values);
       setIsCreateModalOpen(false);
       fetchBlogs();
     } catch (err) {

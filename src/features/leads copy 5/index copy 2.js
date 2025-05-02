@@ -18,7 +18,7 @@ function Crousel() {
   const fetchBlogs = async () => {
     try {
       const response = await axios.get(
-        "https://jewelleryapp.onrender.com/crousel/"
+        "https://backend.srilaxmialankar.com/crousel/"
       );
       setBlogs(Array.isArray(response.data) ? response.data : [response.data]);
     } catch (err) {
@@ -28,7 +28,9 @@ function Crousel() {
 
   const handleDelete = async (blogId) => {
     try {
-      await axios.delete(`https://jewelleryapp.onrender.com/crousel/${blogId}`);
+      await axios.delete(
+        `https://backend.srilaxmialankar.com/crousel/${blogId}`
+      );
       setBlogs(blogs.filter((blog) => blog._id !== blogId));
     } catch (err) {
       console.error("Failed to delete blog", err);
@@ -42,7 +44,7 @@ function Crousel() {
   const handleUpdate = async (values) => {
     try {
       await axios.put(
-        `https://jewelleryapp.onrender.com/crousel/${selectedBlog._id}`,
+        `https://backend.srilaxmialankar.com/crousel/${selectedBlog._id}`,
         values
       );
       setSelectedBlog(null);
@@ -55,7 +57,7 @@ function Crousel() {
   const handleCreate = async (values) => {
     try {
       await axios.post(
-        "https://jewelleryapp.onrender.com/crousel/create",
+        "https://backend.srilaxmialankar.com/crousel/create",
         values
       );
       setIsCreateModalOpen(false);

@@ -18,7 +18,7 @@ function Instagram() {
   const fetchPosts = async () => {
     try {
       const response = await axios.get(
-        "https://jewelleryapp.onrender.com/instagram"
+        "https://backend.srilaxmialankar.com/instagram"
       );
       setPosts(Array.isArray(response.data) ? response.data : [response.data]);
     } catch (err) {
@@ -29,7 +29,7 @@ function Instagram() {
   const handleDelete = async (postId) => {
     try {
       await axios.delete(
-        `https://jewelleryapp.onrender.com/instagram/${postId}`
+        `https://backend.srilaxmialankar.com/instagram/${postId}`
       );
       setPosts(posts.filter((post) => post._id !== postId));
     } catch (err) {
@@ -44,7 +44,7 @@ function Instagram() {
   const handleUpdate = async (values) => {
     try {
       await axios.put(
-        `https://jewelleryapp.onrender.com/instagram/${selectedPost._id}`,
+        `https://backend.srilaxmialankar.com/instagram/${selectedPost._id}`,
         values
       );
       setSelectedPost(null);
@@ -56,7 +56,7 @@ function Instagram() {
 
   const handleCreate = async (values) => {
     try {
-      await axios.post("https://jewelleryapp.onrender.com/instagram", values);
+      await axios.post("https://backend.srilaxmialankar.com/instagram", values);
       setIsCreateModalOpen(false);
       fetchPosts();
     } catch (err) {

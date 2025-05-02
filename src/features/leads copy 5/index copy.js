@@ -19,7 +19,9 @@ function GoldPriceManagement() {
 
   const fetchGoldPrices = async () => {
     try {
-      const response = await axios.get("https://jewelleryapp.onrender.com/today-price/PriceRouting");
+      const response = await axios.get(
+        "https://backend.srilaxmialankar.com/today-price/PriceRouting"
+      );
       if (!response.data || !Array.isArray(response.data)) {
         setGoldPrices([]);
         return;
@@ -34,7 +36,9 @@ function GoldPriceManagement() {
     if (isSubmitting) return;
     try {
       setIsSubmitting(true);
-      await axios.delete(`https://jewelleryapp.onrender.com/today-price/price/${priceId}`);
+      await axios.delete(
+        `https://backend.srilaxmialankar.com/today-price/price/${priceId}`
+      );
       setGoldPrices((prev) => prev.filter((price) => price._id !== priceId));
     } catch (err) {
       console.error("Failed to delete gold price", err);
@@ -56,7 +60,10 @@ function GoldPriceManagement() {
     if (!selectedPrice || isSubmitting) return;
     try {
       setIsSubmitting(true);
-      await axios.patch(`https://jewelleryapp.onrender.com/today-price/price/${selectedPrice._id}`, formik.values);
+      await axios.patch(
+        `https://backend.srilaxmialankar.com/today-price/price/${selectedPrice._id}`,
+        formik.values
+      );
       await fetchGoldPrices();
       closeModal();
     } catch (err) {
@@ -70,7 +77,10 @@ function GoldPriceManagement() {
     if (isSubmitting) return;
     try {
       setIsSubmitting(true);
-      await axios.post("https://jewelleryapp.onrender.com/today-price/todayPrice", formik.values);
+      await axios.post(
+        "https://backend.srilaxmialankar.com/today-price/todayPrice",
+        formik.values
+      );
       await fetchGoldPrices();
       closeModal();
     } catch (err) {
@@ -111,11 +121,16 @@ function GoldPriceManagement() {
 
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div className="bg-white p-6 rounded-lg w-96 shadow-xl" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="bg-white p-6 rounded-lg w-96 shadow-xl"
+          onClick={(e) => e.stopPropagation()}
+        >
           <h3 className="text-lg font-bold text-gray-800">{title}</h3>
           <form onSubmit={formik.handleSubmit}>
             <div className="mt-4">
-              <label className="block text-sm font-medium text-gray-700">Carat</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Carat
+              </label>
               <input
                 type="text"
                 name="Carat"
@@ -128,7 +143,9 @@ function GoldPriceManagement() {
               />
             </div>
             <div className="mt-4">
-              <label className="block text-sm font-medium text-gray-700">Gold Price (per gram)</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Gold Price (per gram)
+              </label>
               <input
                 type="number"
                 name="TodayPricePerGram"
@@ -141,10 +158,17 @@ function GoldPriceManagement() {
               />
             </div>
             <div className="mt-6 flex justify-between">
-              <button type="submit" className="px-4 py-2 bg-green-500 text-white rounded-md">
+              <button
+                type="submit"
+                className="px-4 py-2 bg-green-500 text-white rounded-md"
+              >
                 Save
               </button>
-              <button type="button" onClick={onCancel} className="px-4 py-2 bg-red-500 text-white rounded-md">
+              <button
+                type="button"
+                onClick={onCancel}
+                className="px-4 py-2 bg-red-500 text-white rounded-md"
+              >
                 Cancel
               </button>
             </div>
@@ -169,7 +193,10 @@ function GoldPriceManagement() {
     <div className="p-6 min-h-screen bg-gray-100">
       <TitleCard title="Gold  or Silver Price Management">
         <div className="mb-6">
-          <button onClick={openCreateModal} className="px-4 py-2 bg-green-500 text-white rounded-md">
+          <button
+            onClick={openCreateModal}
+            className="px-4 py-2 bg-green-500 text-white rounded-md"
+          >
             Add Today's Gold Price
           </button>
         </div>
@@ -180,7 +207,9 @@ function GoldPriceManagement() {
               <tr className="bg-gray-100">
                 <th className="py-3 px-4 text-left">Date</th>
                 <th className="py-3 px-4 text-left">Carat</th>
-                <th className="py-3 px-4 text-left">Gold Price or Silver (per gram)</th>
+                <th className="py-3 px-4 text-left">
+                  Gold Price or Silver (per gram)
+                </th>
                 <th className="py-3 px-4 text-left">Actions</th>
               </tr>
             </thead>
@@ -192,17 +221,22 @@ function GoldPriceManagement() {
                   <td className="py-3 px-4">₹{price.TodayPricePerGram}</td>
                   <td className="py-3 px-4">
                     <div className="flex space-x-2">
-                      <button onClick={() => handleEdit(price)} className="px-3 py-1 bg-blue-500 text-white rounded-md">
+                      <button
+                        onClick={() => handleEdit(price)}
+                        className="px-3 py-1 bg-blue-500 text-white rounded-md"
+                      >
                         Edit
                       </button>
-                    
                     </div>
                   </td>
                 </tr>
               ))}
               {currentPrices.length === 0 && (
                 <tr>
-                  <td colSpan="4" className="py-4 px-4 text-center text-gray-500">
+                  <td
+                    colSpan="4"
+                    className="py-4 px-4 text-center text-gray-500"
+                  >
                     No gold prices found
                   </td>
                 </tr>
@@ -212,7 +246,11 @@ function GoldPriceManagement() {
         </div>
       </TitleCard>
 
-      <PriceFormModal title={selectedPrice ? "Edit Gold Price" : "Add Today's Gold Price"} onCancel={closeModal} isOpen={isCreateModalOpen || !!selectedPrice} />
+      <PriceFormModal
+        title={selectedPrice ? "Edit Gold Price" : "Add Today's Gold Price"}
+        onCancel={closeModal}
+        isOpen={isCreateModalOpen || !!selectedPrice}
+      />
     </div>
   );
 }

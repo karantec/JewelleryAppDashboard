@@ -18,7 +18,7 @@ function About() {
   const fetchItems = async () => {
     try {
       const response = await axios.get(
-        "https://jewelleryapp.onrender.com/about"
+        "https://backend.srilaxmialankar.com/about"
       );
       const abouts = response.data.abouts;
       setItems(Array.isArray(abouts) ? abouts : []);
@@ -29,7 +29,7 @@ function About() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://jewelleryapp.onrender.com/${id}`);
+      await axios.delete(`https://backend.srilaxmialankar.com/${id}`);
       const updatedItems = items.filter((item) => item._id !== id);
       const totalPages = Math.ceil(updatedItems.length / itemsPerPage);
       setCurrentPage((prevPage) => Math.min(prevPage, totalPages || 1));
@@ -46,7 +46,7 @@ function About() {
   const handleUpdate = async (values) => {
     try {
       await axios.put(
-        `https://jewelleryapp.onrender.com/about/${selectedItem._id}`,
+        `https://backend.srilaxmialankar.com/about/${selectedItem._id}`,
         values
       );
       setSelectedItem(null);
@@ -58,7 +58,7 @@ function About() {
 
   const handleCreate = async (values) => {
     try {
-      await axios.post("https://jewelleryapp.onrender.com/about", values);
+      await axios.post("https://backend.srilaxmialankar.com/about", values);
       setIsCreateModalOpen(false);
       setCurrentPage(1); // reset to first page
       fetchItems();

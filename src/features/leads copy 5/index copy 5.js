@@ -18,7 +18,7 @@ function Feature() {
   const fetchFeatures = async () => {
     try {
       const response = await axios.get(
-        "https://jewelleryapp.onrender.com/feature"
+        "https://backend.srilaxmialankar.com/feature"
       );
       setFeatures(
         Array.isArray(response.data) ? response.data : [response.data]
@@ -31,7 +31,7 @@ function Feature() {
   const handleDelete = async (featureId) => {
     try {
       await axios.delete(
-        `https://jewelleryapp.onrender.com/feature/${featureId}`
+        `https://backend.srilaxmialankar.com/feature/${featureId}`
       );
       setFeatures(features.filter((feature) => feature._id !== featureId));
     } catch (err) {
@@ -46,7 +46,7 @@ function Feature() {
   const handleUpdate = async (values) => {
     try {
       await axios.put(
-        `https://jewelleryapp.onrender.com/feature/${selectedFeature._id}`,
+        `https://backend.srilaxmialankar.com/feature/${selectedFeature._id}`,
         values
       );
       setSelectedFeature(null);
@@ -58,7 +58,7 @@ function Feature() {
 
   const handleCreate = async (values) => {
     try {
-      await axios.post("https://jewelleryapp.onrender.com/feature", values);
+      await axios.post("https://backend.srilaxmialankar.com/feature", values);
       setIsCreateModalOpen(false);
       fetchFeatures();
     } catch (err) {

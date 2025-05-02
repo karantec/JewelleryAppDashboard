@@ -18,7 +18,7 @@ function EveryDayalegance() {
   const fetchItems = async () => {
     try {
       const response = await axios.get(
-        "https://jewelleryapp.onrender.com/Everyday"
+        "https://backend.srilaxmialankar.com/Everyday"
       );
       setItems(Array.isArray(response.data) ? response.data : [response.data]);
     } catch (err) {
@@ -28,7 +28,7 @@ function EveryDayalegance() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://jewelleryapp.onrender.com/Everyday/${id}`);
+      await axios.delete(`https://backend.srilaxmialankar.com/Everyday/${id}`);
       const updatedItems = items.filter((item) => item._id !== id);
       const totalPages = Math.ceil(updatedItems.length / itemsPerPage);
       setCurrentPage((prevPage) => Math.min(prevPage, totalPages || 1));
@@ -45,7 +45,7 @@ function EveryDayalegance() {
   const handleUpdate = async (values) => {
     try {
       await axios.put(
-        `https://jewelleryapp.onrender.com/Everyday/${selectedItem._id}`,
+        `https://backend.srilaxmialankar.com/Everyday/${selectedItem._id}`,
         values
       );
       setSelectedItem(null);
@@ -57,7 +57,7 @@ function EveryDayalegance() {
 
   const handleCreate = async (values) => {
     try {
-      await axios.post("https://jewelleryapp.onrender.com/Everyday", values);
+      await axios.post("https://backend.srilaxmialankar.com/Everyday", values);
       setIsCreateModalOpen(false);
       setCurrentPage(1); // reset to first page
       fetchItems();

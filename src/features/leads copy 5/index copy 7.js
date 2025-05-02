@@ -18,7 +18,7 @@ function Testimonials() {
   const fetchPosts = async () => {
     try {
       const response = await axios.get(
-        "https://jewelleryapp.onrender.com/testimonial"
+        "https://backend.srilaxmialankar.com/testimonial"
       );
       setPosts(Array.isArray(response.data) ? response.data : [response.data]);
     } catch (err) {
@@ -29,7 +29,7 @@ function Testimonials() {
   const handleDelete = async (postId) => {
     try {
       await axios.delete(
-        `https://jewelleryapp.onrender.com/testimonial/${postId}`
+        `https://backend.srilaxmialankar.com/testimonial/${postId}`
       );
       setPosts(posts.filter((post) => post._id !== postId));
     } catch (err) {
@@ -44,7 +44,7 @@ function Testimonials() {
   const handleUpdate = async (values) => {
     try {
       await axios.put(
-        `https://jewelleryapp.onrender.com/testimonial/${selectedPost._id}`,
+        `https://backend.srilaxmialankar.com/testimonial/${selectedPost._id}`,
         values
       );
       setSelectedPost(null);
@@ -56,7 +56,10 @@ function Testimonials() {
 
   const handleCreate = async (values) => {
     try {
-      await axios.post("https://jewelleryapp.onrender.com/testimonial", values);
+      await axios.post(
+        "https://backend.srilaxmialankar.com/testimonial",
+        values
+      );
       setIsCreateModalOpen(false);
       fetchPosts();
     } catch (err) {
