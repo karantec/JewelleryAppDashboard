@@ -3,65 +3,66 @@ import TitleCard from "../../components/Cards/TitleCard";
 import axios from "axios";
 import { Formik, Form, Field } from "formik";
 
-function Crousel() {
-  const [blogs, setBlogs] = useState([]);
+function Feature() {
+  const [features, setFeatures] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedBlog, setSelectedBlog] = useState(null);
+  const [selectedFeature, setSelectedFeature] = useState(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
-  const blogsPerPage = 6;
+  const featuresPerPage = 6;
 
   useEffect(() => {
-    fetchBlogs();
+    fetchFeatures();
   }, []);
 
-  const fetchBlogs = async () => {
+  const fetchFeatures = async () => {
     try {
       const response = await axios.get(
-        "https://jewelleryapp.onrender.com/crousel/"
+        "https://jewelleryapp.onrender.com/feature"
       );
-      setBlogs(Array.isArray(response.data) ? response.data : [response.data]);
+      setFeatures(
+        Array.isArray(response.data) ? response.data : [response.data]
+      );
     } catch (err) {
-      console.error("Failed to fetch blogs", err);
+      console.error("Failed to fetch features", err);
     }
   };
 
-  const handleDelete = async (blogId) => {
+  const handleDelete = async (featureId) => {
     try {
-      await axios.delete(`https://jewelleryapp.onrender.com/crousel/${blogId}`);
-      setBlogs(blogs.filter((blog) => blog._id !== blogId));
+      await axios.delete(
+        `https://jewelleryapp.onrender.com/feature/${featureId}`
+      );
+      setFeatures(features.filter((feature) => feature._id !== featureId));
     } catch (err) {
-      console.error("Failed to delete blog", err);
+      console.error("Failed to delete feature", err);
     }
   };
 
-  const handleEdit = (blog) => {
-    setSelectedBlog(blog);
+  const handleEdit = (feature) => {
+    setSelectedFeature(feature);
   };
 
   const handleUpdate = async (values) => {
     try {
       await axios.put(
-        `https://jewelleryapp.onrender.com/crousel/${selectedBlog._id}`,
+        `https://jewelleryapp.onrender.com/feature/${selectedFeature._id}`,
         values
       );
-      setSelectedBlog(null);
-      fetchBlogs();
+      setSelectedFeature(null);
+      fetchFeatures();
     } catch (err) {
-      console.error("Failed to update blog", err);
+      console.error("Failed to update feature", err);
     }
   };
 
   const handleCreate = async (values) => {
     try {
-      await axios.post(
-        "https://jewelleryapp.onrender.com/crousel/create",
-        values
-      );
+      await axios.post("https://jewelleryapp.onrender.com/feature", values);
       setIsCreateModalOpen(false);
-      fetchBlogs();
+      fetchFeatures();
     } catch (err) {
-      console.error("Failed to create blog", err);
+      console.error("Failed to create feature", err);
     }
   };
 
@@ -83,19 +84,31 @@ function Crousel() {
     }
   };
 
-  const indexOfLastBlog = currentPage * blogsPerPage;
-  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
-  const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
+  const indexOfLastFeature = currentPage * featuresPerPage;
+  const indexOfFirstFeature = indexOfLastFeature - featuresPerPage;
+  const currentFeatures = features.slice(
+    indexOfFirstFeature,
+    indexOfLastFeature
+  );
+  const totalPages = Math.ceil(features.length / featuresPerPage);
 
-  const BlogFormModal = ({ title, onSubmit, onCancel, isOpen }) => {
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const FeatureFormModal = ({ title, onSubmit, onCancel, isOpen }) => {
     if (!isOpen) return null;
 
     return (
       <Formik
         initialValues={{
-          title: selectedBlog ? selectedBlog.title : "",
-          content: selectedBlog ? selectedBlog.content : "",
-          image: selectedBlog ? selectedBlog.image : "",
+          name: selectedFeature ? selectedFeature.name : "",
+          description: selectedFeature ? selectedFeature.description : "",
+          image: selectedFeature ? selectedFeature.image : "",
         }}
         onSubmit={onSubmit}
       >
@@ -104,16 +117,16 @@ function Crousel() {
             <div className="bg-white p-6 rounded-lg w-96 shadow-xl">
               <h3 className="text-lg font-bold text-gray-800">{title}</h3>
               <Field
-                name="title"
+                name="name"
                 as="input"
-                className="w-full mt-2 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200"
-                placeholder="Blog Title"
+                className="w-full mt-2 p-2 border rounded"
+                placeholder="Name"
               />
               <Field
-                name="content"
+                name="description"
                 as="textarea"
-                className="w-full mt-2 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200 resize-none"
-                placeholder="Blog Content"
+                className="w-full mt-2 p-2 border rounded resize-none"
+                placeholder="Description"
                 rows="5"
               />
               <input
@@ -127,11 +140,10 @@ function Crousel() {
               {values.image && (
                 <img
                   src={values.image}
-                  alt="Service Preview"
+                  alt="Preview"
                   className="w-full h-32 object-cover mt-2 rounded-md"
                 />
               )}
-
               <div className="mt-4 flex justify-between">
                 <button
                   type="submit"
@@ -156,45 +168,44 @@ function Crousel() {
 
   return (
     <div className="p-6 min-h-screen bg-gray-100">
-      <TitleCard title="Crousel Management">
+      <TitleCard title="Feature Management">
         <div className="mb-6">
           <button
             onClick={() => setIsCreateModalOpen(true)}
             className="px-4 py-2 bg-green-500 text-white rounded-md"
           >
-            Add New Blog
+            Add New Feature
           </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {currentBlogs.map((blog) => (
+          {currentFeatures.map((feature) => (
             <div
-              key={blog._id}
+              key={feature._id}
               className="border rounded-lg p-5 shadow-lg bg-white hover:shadow-xl transition-all"
             >
               <img
-                src={blog.image}
-                alt={blog.title}
+                src={feature.image}
+                alt={feature.name}
                 className="w-full h-40 object-cover rounded"
               />
               <h3 className="text-lg font-bold text-gray-800 mt-3">
-                {blog.title}
+                {feature.name}
               </h3>
-              <p className="text-gray-600 mt-2">{blog.content}</p>
-
+              <p className="text-gray-600 mt-2">{feature.description}</p>
               <p className="text-gray-400 mt-1 text-sm">
-                Created: {new Date(blog.createdAt).toLocaleDateString()}
+                Created: {new Date(feature.createdAt).toLocaleDateString()}
               </p>
 
               <div className="mt-4 flex justify-between">
                 <button
-                  onClick={() => handleEdit(blog)}
+                  onClick={() => handleEdit(feature)}
                   className="px-4 py-2 bg-blue-500 text-white rounded-md"
                 >
                   Edit
                 </button>
                 <button
-                  onClick={() => handleDelete(blog._id)}
+                  onClick={() => handleDelete(feature._id)}
                   className="px-4 py-2 bg-red-500 text-white rounded-md"
                 >
                   Delete
@@ -203,23 +214,51 @@ function Crousel() {
             </div>
           ))}
         </div>
+
+        <div className="flex justify-center mt-8 space-x-4">
+          <button
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded ${
+              currentPage === 1
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-blue-500 text-white"
+            }`}
+          >
+            Previous
+          </button>
+          <span className="text-gray-700 font-semibold">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 rounded ${
+              currentPage === totalPages || totalPages === 0
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-blue-500 text-white"
+            }`}
+          >
+            Next
+          </button>
+        </div>
       </TitleCard>
 
-      <BlogFormModal
-        title="Add New Blog"
+      <FeatureFormModal
+        title="Add New Feature"
         onSubmit={handleCreate}
         onCancel={() => setIsCreateModalOpen(false)}
         isOpen={isCreateModalOpen}
       />
 
-      <BlogFormModal
-        title="Edit Blog"
+      <FeatureFormModal
+        title="Edit Feature"
         onSubmit={handleUpdate}
-        onCancel={() => setSelectedBlog(null)}
-        isOpen={!!selectedBlog}
+        onCancel={() => setSelectedFeature(null)}
+        isOpen={!!selectedFeature}
       />
     </div>
   );
 }
 
-export default Crousel;
+export default Feature;

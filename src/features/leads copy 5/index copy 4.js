@@ -3,7 +3,7 @@ import TitleCard from "../../components/Cards/TitleCard";
 import axios from "axios";
 import { Formik, Form, Field } from "formik";
 
-function Crousel() {
+function Best() {
   const [blogs, setBlogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedBlog, setSelectedBlog] = useState(null);
@@ -18,7 +18,7 @@ function Crousel() {
   const fetchBlogs = async () => {
     try {
       const response = await axios.get(
-        "https://jewelleryapp.onrender.com/crousel/"
+        "https://jewelleryapp.onrender.com/best/"
       );
       setBlogs(Array.isArray(response.data) ? response.data : [response.data]);
     } catch (err) {
@@ -28,7 +28,7 @@ function Crousel() {
 
   const handleDelete = async (blogId) => {
     try {
-      await axios.delete(`https://jewelleryapp.onrender.com/crousel/${blogId}`);
+      await axios.delete(`https://jewelleryapp.onrender.com/best/${blogId}`);
       setBlogs(blogs.filter((blog) => blog._id !== blogId));
     } catch (err) {
       console.error("Failed to delete blog", err);
@@ -42,7 +42,7 @@ function Crousel() {
   const handleUpdate = async (values) => {
     try {
       await axios.put(
-        `https://jewelleryapp.onrender.com/crousel/${selectedBlog._id}`,
+        `https://jewelleryapp.onrender.com/best/${selectedBlog._id}`,
         values
       );
       setSelectedBlog(null);
@@ -54,10 +54,7 @@ function Crousel() {
 
   const handleCreate = async (values) => {
     try {
-      await axios.post(
-        "https://jewelleryapp.onrender.com/crousel/create",
-        values
-      );
+      await axios.post("https://jewelleryapp.onrender.com/best", values);
       setIsCreateModalOpen(false);
       fetchBlogs();
     } catch (err) {
@@ -86,6 +83,15 @@ function Crousel() {
   const indexOfLastBlog = currentPage * blogsPerPage;
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
   const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
+  const totalPages = Math.ceil(blogs.length / blogsPerPage);
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
 
   const BlogFormModal = ({ title, onSubmit, onCancel, isOpen }) => {
     if (!isOpen) return null;
@@ -93,8 +99,8 @@ function Crousel() {
     return (
       <Formik
         initialValues={{
-          title: selectedBlog ? selectedBlog.title : "",
-          content: selectedBlog ? selectedBlog.content : "",
+          name: selectedBlog ? selectedBlog.name : "",
+          description: selectedBlog ? selectedBlog.description : "",
           image: selectedBlog ? selectedBlog.image : "",
         }}
         onSubmit={onSubmit}
@@ -104,16 +110,16 @@ function Crousel() {
             <div className="bg-white p-6 rounded-lg w-96 shadow-xl">
               <h3 className="text-lg font-bold text-gray-800">{title}</h3>
               <Field
-                name="title"
+                name="name"
                 as="input"
                 className="w-full mt-2 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200"
-                placeholder="Blog Title"
+                placeholder="Name"
               />
               <Field
-                name="content"
+                name="description"
                 as="textarea"
                 className="w-full mt-2 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200 resize-none"
-                placeholder="Blog Content"
+                placeholder="Description"
                 rows="5"
               />
               <input
@@ -127,11 +133,10 @@ function Crousel() {
               {values.image && (
                 <img
                   src={values.image}
-                  alt="Service Preview"
+                  alt="Preview"
                   className="w-full h-32 object-cover mt-2 rounded-md"
                 />
               )}
-
               <div className="mt-4 flex justify-between">
                 <button
                   type="submit"
@@ -156,7 +161,7 @@ function Crousel() {
 
   return (
     <div className="p-6 min-h-screen bg-gray-100">
-      <TitleCard title="Crousel Management">
+      <TitleCard title="Best Selling Management">
         <div className="mb-6">
           <button
             onClick={() => setIsCreateModalOpen(true)}
@@ -174,14 +179,13 @@ function Crousel() {
             >
               <img
                 src={blog.image}
-                alt={blog.title}
+                alt={blog.name}
                 className="w-full h-40 object-cover rounded"
               />
               <h3 className="text-lg font-bold text-gray-800 mt-3">
-                {blog.title}
+                {blog.name}
               </h3>
-              <p className="text-gray-600 mt-2">{blog.content}</p>
-
+              <p className="text-gray-600 mt-2">{blog.description}</p>
               <p className="text-gray-400 mt-1 text-sm">
                 Created: {new Date(blog.createdAt).toLocaleDateString()}
               </p>
@@ -203,8 +207,38 @@ function Crousel() {
             </div>
           ))}
         </div>
+
+        {/* Pagination Controls */}
+        <div className="flex justify-center mt-8 space-x-4">
+          <button
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded ${
+              currentPage === 1
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-blue-500 text-white"
+            }`}
+          >
+            Previous
+          </button>
+          <span className="text-gray-700 font-semibold">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 rounded ${
+              currentPage === totalPages || totalPages === 0
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-blue-500 text-white"
+            }`}
+          >
+            Next
+          </button>
+        </div>
       </TitleCard>
 
+      {/* Create Modal */}
       <BlogFormModal
         title="Add New Blog"
         onSubmit={handleCreate}
@@ -212,6 +246,7 @@ function Crousel() {
         isOpen={isCreateModalOpen}
       />
 
+      {/* Edit Modal */}
       <BlogFormModal
         title="Edit Blog"
         onSubmit={handleUpdate}
@@ -222,4 +257,4 @@ function Crousel() {
   );
 }
 
-export default Crousel;
+export default Best;

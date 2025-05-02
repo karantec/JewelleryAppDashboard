@@ -1,73 +1,71 @@
 import { useState, useEffect } from "react";
 import TitleCard from "../../components/Cards/TitleCard";
 import axios from "axios";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
 
-function Crousel() {
-  const [blogs, setBlogs] = useState([]);
+function Instagram() {
+  const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedBlog, setSelectedBlog] = useState(null);
+  const [selectedPost, setSelectedPost] = useState(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
-  const blogsPerPage = 6;
+  const postsPerPage = 6;
 
   useEffect(() => {
-    fetchBlogs();
+    fetchPosts();
   }, []);
 
-  const fetchBlogs = async () => {
+  const fetchPosts = async () => {
     try {
       const response = await axios.get(
-        "https://jewelleryapp.onrender.com/crousel/"
+        "https://jewelleryapp.onrender.com/instagram"
       );
-      setBlogs(Array.isArray(response.data) ? response.data : [response.data]);
+      setPosts(Array.isArray(response.data) ? response.data : [response.data]);
     } catch (err) {
-      console.error("Failed to fetch blogs", err);
+      console.error("Failed to fetch posts", err);
     }
   };
 
-  const handleDelete = async (blogId) => {
+  const handleDelete = async (postId) => {
     try {
-      await axios.delete(`https://jewelleryapp.onrender.com/crousel/${blogId}`);
-      setBlogs(blogs.filter((blog) => blog._id !== blogId));
+      await axios.delete(
+        `https://jewelleryapp.onrender.com/instagram/${postId}`
+      );
+      setPosts(posts.filter((post) => post._id !== postId));
     } catch (err) {
-      console.error("Failed to delete blog", err);
+      console.error("Failed to delete post", err);
     }
   };
 
-  const handleEdit = (blog) => {
-    setSelectedBlog(blog);
+  const handleEdit = (post) => {
+    setSelectedPost(post);
   };
 
   const handleUpdate = async (values) => {
     try {
       await axios.put(
-        `https://jewelleryapp.onrender.com/crousel/${selectedBlog._id}`,
+        `https://jewelleryapp.onrender.com/instagram/${selectedPost._id}`,
         values
       );
-      setSelectedBlog(null);
-      fetchBlogs();
+      setSelectedPost(null);
+      fetchPosts();
     } catch (err) {
-      console.error("Failed to update blog", err);
+      console.error("Failed to update post", err);
     }
   };
 
   const handleCreate = async (values) => {
     try {
-      await axios.post(
-        "https://jewelleryapp.onrender.com/crousel/create",
-        values
-      );
+      await axios.post("https://jewelleryapp.onrender.com/instagram", values);
       setIsCreateModalOpen(false);
-      fetchBlogs();
+      fetchPosts();
     } catch (err) {
-      console.error("Failed to create blog", err);
+      console.error("Failed to create post", err);
     }
   };
 
   const handleImageUpload = async (setFieldValue, file) => {
     if (!file) return;
-
     const imageData = new FormData();
     imageData.append("file", file);
     imageData.append("upload_preset", "marketdata");
@@ -83,19 +81,26 @@ function Crousel() {
     }
   };
 
-  const indexOfLastBlog = currentPage * blogsPerPage;
-  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
-  const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+  const totalPages = Math.ceil(posts.length / postsPerPage);
 
-  const BlogFormModal = ({ title, onSubmit, onCancel, isOpen }) => {
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const PostFormModal = ({ title, onSubmit, onCancel, isOpen }) => {
     if (!isOpen) return null;
 
     return (
       <Formik
         initialValues={{
-          title: selectedBlog ? selectedBlog.title : "",
-          content: selectedBlog ? selectedBlog.content : "",
-          image: selectedBlog ? selectedBlog.image : "",
+          image: selectedPost ? selectedPost.image : "",
         }}
         onSubmit={onSubmit}
       >
@@ -103,19 +108,7 @@ function Crousel() {
           <Form className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div className="bg-white p-6 rounded-lg w-96 shadow-xl">
               <h3 className="text-lg font-bold text-gray-800">{title}</h3>
-              <Field
-                name="title"
-                as="input"
-                className="w-full mt-2 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200"
-                placeholder="Blog Title"
-              />
-              <Field
-                name="content"
-                as="textarea"
-                className="w-full mt-2 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200 resize-none"
-                placeholder="Blog Content"
-                rows="5"
-              />
+
               <input
                 type="file"
                 accept="image/*"
@@ -124,11 +117,12 @@ function Crousel() {
                 }
                 className="w-full p-2 border rounded mt-2"
               />
+
               {values.image && (
                 <img
                   src={values.image}
-                  alt="Service Preview"
-                  className="w-full h-32 object-cover mt-2 rounded-md"
+                  alt="Preview"
+                  className="w-full h-40 object-cover mt-2 rounded-md"
                 />
               )}
 
@@ -156,45 +150,37 @@ function Crousel() {
 
   return (
     <div className="p-6 min-h-screen bg-gray-100">
-      <TitleCard title="Crousel Management">
+      <TitleCard title="Instagram Post Management">
         <div className="mb-6">
           <button
             onClick={() => setIsCreateModalOpen(true)}
             className="px-4 py-2 bg-green-500 text-white rounded-md"
           >
-            Add New Blog
+            Add New Post
           </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {currentBlogs.map((blog) => (
+          {currentPosts.map((post) => (
             <div
-              key={blog._id}
+              key={post._id}
               className="border rounded-lg p-5 shadow-lg bg-white hover:shadow-xl transition-all"
             >
               <img
-                src={blog.image}
-                alt={blog.title}
+                src={post.image}
+                alt="Instagram post"
                 className="w-full h-40 object-cover rounded"
               />
-              <h3 className="text-lg font-bold text-gray-800 mt-3">
-                {blog.title}
-              </h3>
-              <p className="text-gray-600 mt-2">{blog.content}</p>
-
-              <p className="text-gray-400 mt-1 text-sm">
-                Created: {new Date(blog.createdAt).toLocaleDateString()}
-              </p>
 
               <div className="mt-4 flex justify-between">
                 <button
-                  onClick={() => handleEdit(blog)}
+                  onClick={() => handleEdit(post)}
                   className="px-4 py-2 bg-blue-500 text-white rounded-md"
                 >
                   Edit
                 </button>
                 <button
-                  onClick={() => handleDelete(blog._id)}
+                  onClick={() => handleDelete(post._id)}
                   className="px-4 py-2 bg-red-500 text-white rounded-md"
                 >
                   Delete
@@ -203,23 +189,51 @@ function Crousel() {
             </div>
           ))}
         </div>
+
+        <div className="flex justify-center mt-8 space-x-4">
+          <button
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded ${
+              currentPage === 1
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-blue-500 text-white"
+            }`}
+          >
+            Previous
+          </button>
+          <span className="text-gray-700 font-semibold">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 rounded ${
+              currentPage === totalPages || totalPages === 0
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-blue-500 text-white"
+            }`}
+          >
+            Next
+          </button>
+        </div>
       </TitleCard>
 
-      <BlogFormModal
-        title="Add New Blog"
+      <PostFormModal
+        title="Add New Post"
         onSubmit={handleCreate}
         onCancel={() => setIsCreateModalOpen(false)}
         isOpen={isCreateModalOpen}
       />
 
-      <BlogFormModal
-        title="Edit Blog"
+      <PostFormModal
+        title="Edit Post"
         onSubmit={handleUpdate}
-        onCancel={() => setSelectedBlog(null)}
-        isOpen={!!selectedBlog}
+        onCancel={() => setSelectedPost(null)}
+        isOpen={!!selectedPost}
       />
     </div>
   );
 }
 
-export default Crousel;
+export default Instagram;

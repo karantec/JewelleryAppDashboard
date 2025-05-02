@@ -4,6 +4,13 @@ import { lazy } from "react";
 
 import FinanceAccounting from "../features/leads copy";
 import BlogList from "../features/leads copy 8";
+import EveryDayalegance from "../features/leads copy 5/index copy 3";
+import Best from "../features/leads copy 5/index copy 4";
+import Feature from "../features/leads copy 5/index copy 5";
+import Instagram from "../features/leads copy 5/index copy 6";
+import Testimonials from "../features/leads copy 5/index copy 7";
+import AboutForm from "../features/leads copy 6";
+import About from "../features/leads copy 5/index copy 8";
 
 const Dashboard = lazy(() => import("../pages/protected/Dashboard"));
 const Welcome = lazy(() => import("../pages/protected/Welcome"));
@@ -15,7 +22,6 @@ const OrderList = lazy(() => import("../pages/protected/Order"));
 const Crousel = lazy(() => import("../pages/protected/Crousel"));
 const Category = lazy(() => import("../pages/protected/Category"));
 const Pricing = lazy(() => import("../pages/protected/Price"));
-const About = lazy(() => import("../pages/protected/About"));
 
 const routes = [
   {
@@ -33,6 +39,30 @@ const routes = [
   {
     path: "/Crousel",
     component: Crousel,
+  },
+  {
+    path: "/About",
+    component: About,
+  },
+  {
+    path: "/Everyday",
+    component: EveryDayalegance,
+  },
+  {
+    path: "/best",
+    component: Best,
+  },
+  {
+    path: "/feature",
+    component: Feature,
+  },
+  {
+    path: "/instagram",
+    component: Instagram,
+  },
+  {
+    path: "/testimonials",
+    component: Testimonials,
   },
   {
     path: "/Category",

@@ -34,6 +34,42 @@ const routes = [
     icon: <MdCategory className={iconClasses} />,
     name: "Crousel",
   },
+  {
+    path: "/app/About",
+    icon: <MdCategory className={iconClasses} />,
+    name: "About",
+  },
+  {
+    path: "/app/EveryDay",
+    icon: <MdCategory className={iconClasses} />,
+    name: "EveryDay Elegance",
+  },
+
+  {
+    path: "/app/best",
+    icon: <MdCategory className={iconClasses} />,
+    name: "Best",
+  },
+  {
+    path: "/app/feature",
+    icon: <MdCategory className={iconClasses} />,
+    name: "Feature",
+  },
+  {
+    path: "/app/instagram",
+    icon: <MdCategory className={iconClasses} />,
+    name: "Instagram",
+  },
+  {
+    path: "/app/testimonials",
+    icon: <MdCategory className={iconClasses} />,
+    name: "Testimonials",
+  },
+  {
+    path: "/app/instagram",
+    icon: <MdCategory className={iconClasses} />,
+    name: "Instagram",
+  },
   // {
   //   path: '/app/About',
   //   icon: <FcAbout className={iconClasses} />,
