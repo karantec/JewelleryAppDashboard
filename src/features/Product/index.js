@@ -374,7 +374,7 @@ const AddProduct = () => {
                     <option value="24K">24K (99.9% pure)</option>
                     <option value="22K">22K (91.6% pure)</option>
                     <option value="18K">18K (75% pure)</option>
-                    <option value="1K">1K </option>
+                    <option value="Silver">Silve</option>
                   </select>
                 </div>
               </div>
