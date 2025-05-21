@@ -2,21 +2,10 @@
 
 import Squares2X2Icon from "@heroicons/react/24/outline/Squares2X2Icon";
 
-import {
-  MdCampaign,
-  MdCategory,
-  MdProductionQuantityLimits,
-} from "react-icons/md";
-import { VscGitPullRequestNewChanges, VscFeedback } from "react-icons/vsc";
-import {
-  FaBookBookmark,
-  FaAddressBook,
-  FaEye,
-  FaRegUser,
-  FaUserAstronaut,
-} from "react-icons/fa";
+import { MdCategory } from "react-icons/md";
 
-import { FcAbout } from "react-icons/fc";
+import { FaAddressBook, FaUserAstronaut } from "react-icons/fa";
+
 const iconClasses = "h-5 w-5"; // Adjusted icon size for consistency
 
 // Define routes for the sidebar with paths, icons, and names
