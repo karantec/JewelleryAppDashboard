@@ -14,7 +14,6 @@ const routes = [
     icon: <Squares2X2Icon className={iconClasses} />,
     name: "Dashboard",
   },
-
   {
     name: "HomePage Management",
   },
