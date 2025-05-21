@@ -352,10 +352,7 @@ const ProductsPage = () => {
   // Get current products for pagination
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
+  const currentProducts = products.slice(indexOfFirstProduct);
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);

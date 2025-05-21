@@ -9,15 +9,16 @@ import Best from "../features/leads copy 5/index copy 4";
 import Feature from "../features/leads copy 5/index copy 5";
 import Instagram from "../features/leads copy 5/index copy 6";
 import Testimonials from "../features/leads copy 5/index copy 7";
-import AboutForm from "../features/leads copy 6";
+import Related from "../features/leads copy 5/index copy 9";
 import About from "../features/leads copy 5/index copy 8";
+import ShopDetail from "../features/leads copy 5/index copy 10";
+import ContactUs from "../features/leads copy 5/index copy 11";
 
 const Dashboard = lazy(() => import("../pages/protected/Dashboard"));
 const Welcome = lazy(() => import("../pages/protected/Welcome"));
 
 const Products = lazy(() => import("../pages/protected/Product"));
 const ViewProducts = lazy(() => import("../pages/protected/View"));
-const EditProducts = lazy(() => import("../pages/protected/Edit"));
 const OrderList = lazy(() => import("../pages/protected/Order"));
 const Crousel = lazy(() => import("../pages/protected/Crousel"));
 const Category = lazy(() => import("../pages/protected/Category"));
@@ -49,6 +50,14 @@ const routes = [
     component: EveryDayalegance,
   },
   {
+    path: "/Related",
+    component: Related,
+  },
+  {
+    path: "/shopdetails",
+    component: ShopDetail,
+  },
+  {
     path: "/best",
     component: Best,
   },
@@ -64,6 +73,11 @@ const routes = [
     path: "/testimonials",
     component: Testimonials,
   },
+  {
+    path: "/contact",
+    component: ContactUs,
+  },
+
   {
     path: "/Category",
     component: Category,

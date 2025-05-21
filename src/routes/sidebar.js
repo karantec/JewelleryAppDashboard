@@ -44,6 +44,21 @@ const routes = [
     icon: <MdCategory className={iconClasses} />,
     name: "EveryDay Elegance",
   },
+  {
+    path: "/app/Related",
+    icon: <MdCategory className={iconClasses} />,
+    name: "Related Products",
+  },
+  {
+    path: "/app/contact",
+    icon: <MdCategory className={iconClasses} />,
+    name: "Contact",
+  },
+  {
+    path: "/app/shopdetails",
+    icon: <MdCategory className={iconClasses} />,
+    name: "Shop details",
+  },
 
   {
     path: "/app/best",
