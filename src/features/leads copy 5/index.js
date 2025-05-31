@@ -44,7 +44,7 @@ function ServiceList() {
   const handleDelete = async (serviceId) => {
     try {
       await axios.delete(
-        `https://backend.srilaxmialankar.comcategory/deleteCategory/${serviceId}`
+        `https://backend.srilaxmialankar.com/category/deleteCategory/${serviceId}`
       );
       setServices(services.filter((service) => service._id !== serviceId));
     } catch (err) {
