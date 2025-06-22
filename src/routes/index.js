@@ -13,6 +13,7 @@ import Related from "../features/leads copy 5/index copy 9";
 import About from "../features/leads copy 5/index copy 8";
 import ShopDetail from "../features/leads copy 5/index copy 10";
 import ContactUs from "../features/leads copy 5/index copy 11";
+import AppScheme from "../features/leads copy 5/index copy 12";
 
 const Dashboard = lazy(() => import("../pages/protected/Dashboard"));
 const Welcome = lazy(() => import("../pages/protected/Welcome"));
@@ -33,6 +34,11 @@ const routes = [
     path: "/welcome", // the url
     component: Welcome, // view rendered
   },
+  {
+    path: "/Scheme", // the url
+    component: AppScheme, // view rendered
+  },
+
   {
     path: "/Products",
     component: Products,

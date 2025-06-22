@@ -18,6 +18,11 @@ const routes = [
     name: "HomePage Management",
   },
   {
+    path: "/app/Scheme",
+    icon: <MdCategory className={iconClasses} />,
+    name: "AppScheme",
+  },
+  {
     path: "/app/Crousel",
     icon: <MdCategory className={iconClasses} />,
     name: "Crousel",
